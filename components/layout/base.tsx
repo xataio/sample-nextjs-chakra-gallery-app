@@ -19,14 +19,18 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
     <Flex flexDir="column" maxW={1200} margin="auto" minH="100vh">
       <Flex justifyContent="space-between" py={8}>
         <XataWordMarkIcon />
-        <Tooltip label={`Change theme to ${isDark ? 'light' : 'dark'}`} openDelay={500}>
-          <IconButton
-            aria-label="Change theme"
-            variant="ghost"
-            icon={<Icon as={isDark ? WeatherSunny20Filled : WeatherMoon20Filled} boxSize={5} />}
-            onClick={toggleColorMode}
-          />
-        </Tooltip>
+        <Flex gap={4} alignItems="center">
+          <Link href="https://xata.io/docs">Docs</Link>
+          <Link href="https://xata.io/docs">Examples</Link>
+          <Tooltip label={`Change theme to ${isDark ? 'light' : 'dark'}`} openDelay={500}>
+            <IconButton
+              aria-label="Change theme"
+              variant="ghost"
+              icon={<Icon as={isDark ? WeatherSunny20Filled : WeatherMoon20Filled} boxSize={5} />}
+              onClick={toggleColorMode}
+            />
+          </Tooltip>
+        </Flex>
       </Flex>
       <Flex flexDir="column" flex={1}>
         {children}
