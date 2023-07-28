@@ -1,0 +1,16 @@
+{
+  "id": "mig_cj19hbmenvq755ss2abg",
+  "parentID": "mig_cj19h1eenvq755ss2a8g",
+  "checksum": "1:41e6f9704ea2d9dfd4088a65472ca5aaf6423dc833ef4c0515924187da5a6920",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "images",
+          "type": "file[]"
+        },
+        "table": "galleries"
+      }
+    }
+  ]
+}
