@@ -1,5 +1,5 @@
 {
-  "databaseURL": "https://Dave-Snider-s-workspace-pghsjs.us-east-1.xata.sh/db/images",
+  "databaseURL": "https://sample-databases-v0sn1n.us-east-1.xata.sh/db/gallery-example",
   "codegen": {
     "output": "utils/xata.ts"
   }

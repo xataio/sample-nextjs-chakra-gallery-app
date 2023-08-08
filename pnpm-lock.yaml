@@ -44,6 +44,9 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  slugify:
+    specifier: ^1.6.6
+    version: 1.6.6
   typescript:
     specifier: 5.1.6
     version: 5.1.6
@@ -5082,6 +5085,12 @@ packages:
       ansi-styles: 6.2.1
       is-fullwidth-code-point: 4.0.0
     dev: true
+
+  /slugify@1.6.6:
+    resolution:
+      { integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw== }
+    engines: { node: '>=8.0.0' }
+    dev: false
 
   /source-map-js@1.0.2:
     resolution:
