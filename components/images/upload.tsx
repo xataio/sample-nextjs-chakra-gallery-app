@@ -1,6 +1,7 @@
 'use client';
 import {
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -11,7 +12,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -20,13 +22,15 @@ export const ImageUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState('');
   const [file, setFile] = useState(null);
+  const [tags, setTags] = useState('');
   const [message, setMessage] = useState('');
   const router = useRouter();
+  const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!file || !name) {
+    if (!file || !name || !tags) {
       setMessage('Name and file are required.');
       return;
     }
@@ -34,6 +38,7 @@ export const ImageUpload = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('name', name);
+    formData.append('tags', tags);
 
     try {
       const response = await fetch('/images/upload', {
@@ -46,7 +51,13 @@ export const ImageUpload = () => {
       console.log(result);
 
       if (result.success) {
-        setMessage('Image uploaded successfully.');
+        toast({
+          title: 'Image uploaded.',
+          description: 'Your image was uploaded successfully.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true
+        });
         router.push(`/images/${result.record.id}`);
       } else {
         setMessage('Error uploading image.');
@@ -70,25 +81,33 @@ export const ImageUpload = () => {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
-            <ModalHeader>Modal Title</ModalHeader>
+            <ModalHeader>Add an image</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormControl id="name" isRequired>
-                <FormLabel>Name</FormLabel>
-                <Input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-              </FormControl>
-              <FormControl id="file" isRequired>
-                <FormLabel>Image</FormLabel>
-                <Input type="file" name="file" onChange={handleFileChange} />
-              </FormControl>
+              <Flex flexDir="column" gap={4}>
+                <FormControl id="name" isRequired>
+                  <FormLabel>Name</FormLabel>
+                  <Input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+                </FormControl>
+                <FormControl id="name" isRequired>
+                  <FormLabel>Tags</FormLabel>
+                  <Input type="text" name="name" value={tags} onChange={(e) => setTags(e.target.value)} />
+                </FormControl>
+                <FormControl id="file" isRequired>
+                  <FormLabel>Image</FormLabel>
+                  <Input type="file" name="file" onChange={handleFileChange} />
+                </FormControl>
+              </Flex>
               {message && <div>{message}</div>}
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
+              <Button variant="ghost" mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit">Upload</Button>
+              <Button type="submit" colorScheme="primary">
+                Upload
+              </Button>
             </ModalFooter>
           </form>
         </ModalContent>

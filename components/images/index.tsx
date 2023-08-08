@@ -24,7 +24,6 @@ interface ImagesProps {
 }
 
 export const Images: FC<ImagesProps> = ({ images, tags, title }) => {
-  console.log(images);
   return (
     <BaseLayout>
       <Flex alignItems="center" justifyContent="space-between" mb={8}>

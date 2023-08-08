@@ -36,7 +36,5 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const tag = (await xata.db.tag.read(params.slug)) as TagRecord;
 
-  console.log(imageRecords);
-
   return <Images images={imageRecords} title={tag.name} />;
 }

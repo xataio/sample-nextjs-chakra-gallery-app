@@ -50,6 +50,9 @@ dependencies:
   typescript:
     specifier: 5.1.6
     version: 5.1.6
+  uuid:
+    specifier: ^9.0.0
+    version: 9.0.0
 
 devDependencies:
   '@chakra-ui/cli':
@@ -5488,6 +5491,12 @@ packages:
       detect-node-es: 1.1.0
       react: 18.2.0
       tslib: 2.6.1
+    dev: false
+
+  /uuid@9.0.0:
+    resolution:
+      { integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg== }
+    hasBin: true
     dev: false
 
   /watchpack@2.4.0:
