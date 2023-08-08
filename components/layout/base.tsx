@@ -2,6 +2,7 @@
 import { Link } from '@chakra-ui/next-js';
 import { Flex, Icon, IconButton, Text, Tooltip, useColorMode } from '@chakra-ui/react';
 import { WeatherMoon20Filled, WeatherSunny20Filled } from '@fluentui/react-icons';
+import NextLink from 'next/link';
 import { FC } from 'react';
 import { DiscordIcon } from '../icons/discord';
 import { GitHubIcon } from '../icons/github';
@@ -18,10 +19,12 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
   return (
     <Flex flexDir="column" maxW={1200} margin="auto" minH="100vh">
       <Flex justifyContent="space-between" py={8}>
-        <XataWordMarkIcon />
+        <NextLink href="/">
+          <XataWordMarkIcon />
+        </NextLink>
         <Flex gap={4} alignItems="center">
           <Link href="https://xata.io/docs">Docs</Link>
-          <Link href="https://xata.io/docs">Examples</Link>
+          <Link href="https://github.com/xataio/examples">Examples</Link>
           <Tooltip label={`Change theme to ${isDark ? 'light' : 'dark'}`} openDelay={500}>
             <IconButton
               aria-label="Change theme"
