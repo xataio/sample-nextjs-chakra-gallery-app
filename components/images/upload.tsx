@@ -78,8 +78,8 @@ export const ImageUpload = () => {
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay backdropFilter="blur(12px)" bg="blackAlpha.600" />
+        <ModalContent boxShadow="outline">
           <form onSubmit={handleSubmit}>
             <ModalHeader>Add an image</ModalHeader>
             <ModalCloseButton />

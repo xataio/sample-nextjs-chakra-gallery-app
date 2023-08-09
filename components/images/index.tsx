@@ -44,7 +44,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, title }) => {
       <SimpleGrid columns={4} spacing={2}>
         {images.map((image) => {
           return (
-            <Link key={image.name} href={`/images/${image.id}`}>
+            <Link key={image.id} href={`/images/${image.id}`}>
               <Image
                 src={image.thumb.url}
                 width={image.thumb.attributes.width}
