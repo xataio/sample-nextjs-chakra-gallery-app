@@ -32,6 +32,9 @@ dependencies:
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   next:
     specifier: 13.4.12
     version: 13.4.12(react-dom@18.2.0)(react@18.2.0)
@@ -64,6 +67,9 @@ devDependencies:
   '@types/chroma-js':
     specifier: ^2.4.0
     version: 2.4.0
+  '@types/lodash':
+    specifier: ^4.14.196
+    version: 4.14.196
   '@types/node':
     specifier: 20.4.5
     version: 20.4.5
@@ -2028,7 +2034,6 @@ packages:
   /@types/lodash@4.14.196:
     resolution:
       { integrity: sha512-22y3o88f4a94mKljsZcanlNWPzO0uBsBdzLAngf2tp533LzZcQzb6+eZPJ+vCTt+bqF2XnvT9gejTLsAcJAJyQ== }
-    dev: false
 
   /@types/node@20.4.5:
     resolution:
@@ -4291,6 +4296,11 @@ packages:
   /lodash.mergewith@4.6.2:
     resolution:
       { integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ== }
+
+  /lodash@4.17.21:
+    resolution:
+      { integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg== }
+    dev: false
 
   /log-symbols@3.0.0:
     resolution:

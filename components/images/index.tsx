@@ -1,8 +1,9 @@
 'use client';
-import { Flex, Heading, SimpleGrid, Tag } from '@chakra-ui/react';
+import { Flex, Input, InputGroup, InputRightElement, SimpleGrid, Spinner, Tag } from '@chakra-ui/react';
+import { debounce, isNil } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { ImageRecord, TagRecord } from '~/utils/xata';
 import { BaseLayout } from '../layout/base';
 import { ImageUpload } from './upload';
@@ -23,13 +24,52 @@ interface ImagesProps {
   title?: string;
 }
 
-export const Images: FC<ImagesProps> = ({ images, tags, title }) => {
+export const Images: FC<ImagesProps> = ({ images, tags }) => {
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchResults, setSearchResults] = useState(null);
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const debounceOnChange = debounce(handleSearchChange, 250);
+
+  useEffect(() => {
+    const fetchRecords = async () => {
+      if (isNil(searchQuery) || searchQuery === '') {
+        setSearchResults(null);
+        return;
+      }
+      setIsLoadingSearch(true);
+      const response = await fetch(`/api/search?q=${searchQuery}`);
+      const results = await response.json();
+
+      setSearchResults(results);
+      setIsLoadingSearch(false);
+    };
+
+    void fetchRecords();
+  }, [searchQuery]);
+
+  console.log('searchResults', searchResults);
+
   return (
     <BaseLayout>
       <Flex alignItems="center" justifyContent="space-between" mb={8}>
+        <InputGroup maxW={200}>
+          <Input type="search" placeholder="Search" onChange={debounceOnChange} />
+          {isLoadingSearch && (
+            <InputRightElement>
+              <Spinner size="sm" />
+            </InputRightElement>
+          )}
+        </InputGroup>
+        {/*
         <Heading as="h1" size="md">
           {title ? 'Images tagged with ' + title : 'All images'}
         </Heading>
+        */}
         <ImageUpload />
       </Flex>
       {tags && (
