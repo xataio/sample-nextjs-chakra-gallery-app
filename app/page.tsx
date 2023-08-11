@@ -19,7 +19,7 @@ export default async function Page({ searchParams }: { searchParams: { p: string
   const totalNumberOfPages = Math.ceil(totalNumberOfImages.aggs.totalCount / numOfImagePerPage);
 
   const page = {
-    pageNumber: pageNumber,
+    pageNumber,
     hasNextPage: paginatedRecords.hasNextPage(),
     hasPrevousPage: pageNumber > 1,
     totalNumberOfPages

@@ -1,10 +1,12 @@
 'use client';
+import { Link } from '@chakra-ui/next-js';
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Tag, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { FC } from 'react';
 import { ImageRecord, TagRecord } from '~/utils/xata';
 import { BaseLayout } from '../layout/base';
+import { Search } from '../search';
 import { ImageUpload } from './upload';
 
 interface ImageProps {
@@ -21,24 +23,31 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
     console.log('results', results);
   };
 
+  console.log('image', image);
+
   return (
     <BaseLayout>
       <Flex alignItems="center" justifyContent="space-between" mb={8} w="full">
-        <Heading as="h1" size="md">
-          {image.name}
-        </Heading>
         <ImageUpload />
+        <Search />
       </Flex>
-      <Flex alignItems="center" flexGrow={1}>
+      <Heading as="h1" size="md" mb={8}>
+        {image.name}
+      </Heading>
+      <Flex mb={8} gap={2} wrap="wrap">
+        <Link href="/">&laquo; Back to all images</Link>
+      </Flex>
+      <Flex alignItems="start" flexGrow={1}>
         <Flex alignItems="center" justifyContent="center" flexDir="column" grow={1}>
           <NextImage
             src={image.image.url}
             width={image.image.attributes.width}
             height={image.image.attributes.height}
             alt={image.name}
+            style={{ maxWidth: '80%' }}
           />
         </Flex>
-        <Flex flexDir="column" gap={6} maxW={300} boxShadow="outline" p={8} borderRadius="md">
+        <Flex flexDir="column" gap={6} maxW={300} bg="contrastLowest" p={8} borderRadius="md">
           <FormControl>
             <FormLabel>Image name</FormLabel>
             <Text fontSize="sm">{image.name}</Text>
@@ -60,7 +69,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
               <FormLabel>Tagged as</FormLabel>
               <Flex gap={2}>
                 {tags?.map((tag) => (
-                  <Tag as={Link} key={tag.id} href={`/tags/${tag.id}`}>
+                  <Tag as={NextLink} key={tag.id} href={`/tags/${tag.id}`}>
                     {tag.name}
                   </Tag>
                 ))}

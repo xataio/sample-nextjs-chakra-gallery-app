@@ -18,6 +18,21 @@ export default async function Page({ params }: { params: { slug: string } }) {
     'image.attributes'
   ])) as ImageRecord;
 
+  const { url: transformedUrl } = image.image?.transform({
+    width: 294,
+    height: 294,
+    format: 'auto',
+    fit: 'cover',
+    gravity: 'top'
+  });
+
+  const thumb = {
+    url: transformedUrl,
+    attributes: { width: 294, height: 294 }
+  };
+
+  image.image.thumb = thumb;
+
   const tagsFromImage = await xata.db['tag-to-image']
     .filter({
       'image.id': params.slug

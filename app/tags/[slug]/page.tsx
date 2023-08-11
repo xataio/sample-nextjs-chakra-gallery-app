@@ -58,7 +58,7 @@ export default async function Page({
 
   const totalNumberOfImagesWithTag = summarizeTag.summaries[0].totalImages;
 
-  const tag = (await xata.db.tag.read(params.slug)) as TagRecord;
+  const tag = await xata.db.tag.read(params.slug);
   const tagWithCount = {
     ...tag,
     totalImages: totalNumberOfImagesWithTag
