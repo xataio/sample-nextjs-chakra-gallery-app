@@ -103,6 +103,7 @@ export const Search: FC = () => {
     setSearchQuery('');
     onClose();
   };
+
   return (
     <>
       <Button onClick={onOpen}>Search</Button>
@@ -119,7 +120,7 @@ export const Search: FC = () => {
           mt={{ base: '5vh', lg: '15vh' }}
         >
           <ModalBody borderRadius={10} p={0} bg="bg">
-            <InputGroup maxW={200}>
+            <InputGroup w="full" alignItems="center">
               <Input
                 type="search"
                 size="lg"
@@ -135,7 +136,7 @@ export const Search: FC = () => {
                 onChange={debounceOnChange}
               />
               {isLoadingSearch && (
-                <InputRightElement>
+                <InputRightElement mt={4} mr={4}>
                   <Spinner size="sm" />
                 </InputRightElement>
               )}
@@ -148,18 +149,15 @@ export const Search: FC = () => {
               maxH="60vh"
               ref={resultsRef}
             >
-              {searchResults &&
-                searchResults.map((result) => {
-                  return (
-                    <SearchResult
-                      key={result.record.id}
-                      // @ts-ignore-next-line
-                      isFocused={focused?.record.id === result.record.id}
-                      onClick={handleClose}
-                      result={result}
-                    />
-                  );
-                })}
+              {searchResults.map((result) => (
+                <SearchResult
+                  key={result.record.id}
+                  // @ts-ignore-next-line
+                  isFocused={focused?.record.id === result.record.id}
+                  onClick={handleClose}
+                  result={result}
+                />
+              ))}
             </Box>
           </ModalBody>
         </ModalContent>

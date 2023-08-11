@@ -39,6 +39,7 @@ export const SearchResult: FC<SearchResultProps> = ({ result, onClick, isFocused
       borderLeftColor={isFocused ? 'green.600' : 'transparent'}
       role="group"
       position="relative"
+      w="full"
     >
       <VStack spacing={0} alignItems="start">
         <Flex alignItems="start" gap={2}>
