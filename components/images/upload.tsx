@@ -41,7 +41,7 @@ export const ImageUpload = () => {
     formData.append('tags', tags);
 
     try {
-      const response = await fetch('/images/upload', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData
       });
