@@ -9,15 +9,26 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+  searchParams
+}: {
+  params: { slug: string };
+  searchParams: { p: string };
+}) {
+  const pageNumber = parseInt(searchParams.p, 10) || 1;
+  const numOfImagePerPage = 8;
+
   const recordsWithTag = await xata.db['tag-to-image']
     .filter({
       'tag.id': params.slug
     })
     .select(['*', 'image.image.url', 'image.image.attributes', 'image.image.name'])
-    .getMany();
+    .getPaginated({
+      pagination: { size: numOfImagePerPage, offset: numOfImagePerPage * pageNumber - numOfImagePerPage }
+    });
 
-  const imageRecords = recordsWithTag.map((record) => {
+  const imageRecords = recordsWithTag.records.map((record) => {
     const { url: transformedUrl } = record.image?.image?.transform({
       width: 294,
       height: 294,
@@ -34,7 +45,33 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return { ...record.image, thumb };
   });
 
-  const tag = (await xata.db.tag.read(params.slug)) as TagRecord;
+  const summarizeTag = await xata.db['tag-to-image']
+    .filter({
+      'tag.id': params.slug
+    })
+    .summarize({
+      columns: ['tag'],
+      summaries: {
+        totalImages: { count: '*' }
+      }
+    });
 
-  return <Images images={imageRecords} title={tag.name} />;
+  const totalNumberOfImagesWithTag = summarizeTag.summaries[0].totalImages;
+
+  const tag = (await xata.db.tag.read(params.slug)) as TagRecord;
+  const tagWithCount = {
+    ...tag,
+    totalImages: totalNumberOfImagesWithTag
+  };
+
+  const totalNumberOfPages = Math.ceil(totalNumberOfImagesWithTag / numOfImagePerPage);
+
+  const page = {
+    pageNumber,
+    hasNextPage: recordsWithTag.hasNextPage(),
+    hasPrevousPage: pageNumber > 1,
+    totalNumberOfPages: totalNumberOfPages
+  };
+
+  return <Images images={imageRecords} tags={[tagWithCount]} page={page} />;
 }
