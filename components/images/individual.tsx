@@ -1,8 +1,9 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Tag, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Tag, Text, useToast } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { ImageRecord, TagRecord } from '~/utils/xata';
 import { BaseLayout } from '../layout/base';
@@ -15,12 +16,18 @@ interface ImageProps {
 }
 
 export const Image: FC<ImageProps> = ({ image, tags }) => {
+  const router = useRouter();
+  const toast = useToast();
   const handleDelete = async () => {
-    console.log('deleteing', image.id);
-    const response = await fetch(`/api/delete?id=${image.id}`);
-    console.log('response', response);
-    const results = response.json();
-    console.log('results', results);
+    await fetch(`/api/delete?id=${image.id}`);
+    router.push('/');
+    toast({
+      title: 'Image deleted',
+      description: `Image ${image.name} has been deleted`,
+      status: 'success',
+      duration: 3000,
+      isClosable: true
+    });
   };
 
   console.log('image', image);
