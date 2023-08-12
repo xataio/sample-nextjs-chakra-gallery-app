@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { TagRecord, getXataClient } from '~/utils/xata';
+import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
@@ -12,17 +12,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: 'Missing id' });
   }
 
-  const tagsFromImage = await xata.db['tag-to-image']
+  const linksFromImage = await xata.db['tag-to-image']
     .filter({
       'image.id': id
     })
-    .select(['*', 'tag.*'])
-    .getMany();
+    .getAll();
 
-  const tags = tagsFromImage.map((tag) => tag.tag) as TagRecord[];
-  const tagIds = tags.map((tag) => tag.id);
-
-  await xata.db['tag-to-image'].delete(tagIds);
+  await xata.db['tag-to-image'].delete(linksFromImage.map((link) => link.id));
   await xata.db.image.delete(id);
 
   return NextResponse.json({ success: true });
