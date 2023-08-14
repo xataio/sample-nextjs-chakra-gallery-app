@@ -16,7 +16,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 export const ImageUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,7 +27,7 @@ export const ImageUpload = () => {
   const router = useRouter();
   const toast = useToast();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!file || !name || !tags) {

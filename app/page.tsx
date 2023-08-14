@@ -36,6 +36,7 @@ export default async function Page({ searchParams }: { searchParams: { p: string
   });
 
   const transformedRecords = paginatedRecords.records.map((record) => {
+    // @ts-ignore-next-line - TODO: Alexis will fix typings
     const { url: transformedUrl } = record.image?.transform({
       width: 294,
       height: 294,
