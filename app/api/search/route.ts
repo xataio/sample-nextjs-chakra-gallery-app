@@ -1,7 +1,10 @@
 import { getXataClient } from '~/utils/xata';
 
 export const runtime = 'edge';
-export const region = 'iad1';
+
+export const config = {
+  regions: ['iad1']
+};
 
 const xata = getXataClient();
 
