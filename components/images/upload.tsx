@@ -67,7 +67,8 @@ export const ImageUpload = () => {
     }
   };
 
-  const handleFileChange = (e) => {
+  // TODO: Alexis will find a better type?
+  const handleFileChange = (e: any) => {
     setFile(e.target.files[0]);
   };
 

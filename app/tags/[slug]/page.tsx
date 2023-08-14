@@ -23,12 +23,12 @@ export default async function Page({
     .filter({
       'tag.id': params.slug
     })
-    .select(['*', 'image.image.url', 'image.image.attributes', 'image.image.name'])
     .getPaginated({
       pagination: { size: numOfImagePerPage, offset: numOfImagePerPage * pageNumber - numOfImagePerPage }
     });
 
   const imageRecords = recordsWithTag.records.map((record) => {
+    // @ts-ignore-next-line TODO: Alexis will fix types
     const { url: transformedUrl } = record.image?.image?.transform({
       width: 294,
       height: 294,
@@ -73,5 +73,6 @@ export default async function Page({
     totalNumberOfPages: totalNumberOfPages
   };
 
+  // @ts-ignore-next-line TODO: Alexis will fix types
   return <Images images={imageRecords} tags={[tagWithCount]} page={page} />;
 }

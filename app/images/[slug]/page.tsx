@@ -12,6 +12,7 @@ export async function generateStaticParams() {
 export default async function Page({ params }: { params: { slug: string } }) {
   const image = (await xata.db.image.read(params.slug)) as ImageRecord;
 
+  // @ts-ignore-next-line TODO: Alexis will fix types
   const { url: transformedUrl } = image.image?.transform({
     width: 294,
     height: 294,
@@ -25,6 +26,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     attributes: { width: 294, height: 294 }
   };
 
+  // @ts-ignore-next-line TODO: Alexis will fix types
   image.image.thumb = thumb;
 
   const tagsFromImage = await xata.db['tag-to-image']
