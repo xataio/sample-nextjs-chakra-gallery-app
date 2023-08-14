@@ -6,11 +6,9 @@ export default async function Page({ searchParams }: { searchParams: { p: string
   const pageNumber = parseInt(searchParams.p, 10) || 1;
   const numOfImagePerPage = 8;
 
-  const paginatedRecords = await xata.db.image
-    .select(['name', 'image.base64Content', 'image.name', 'image.url', 'image.attributes'])
-    .getPaginated({
-      pagination: { size: numOfImagePerPage, offset: numOfImagePerPage * pageNumber - numOfImagePerPage }
-    });
+  const paginatedRecords = await xata.db.image.getPaginated({
+    pagination: { size: numOfImagePerPage, offset: numOfImagePerPage * pageNumber - numOfImagePerPage }
+  });
 
   const totalNumberOfImages = await xata.db.image.aggregate({
     totalCount: { count: '*' }

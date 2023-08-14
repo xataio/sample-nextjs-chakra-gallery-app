@@ -27,8 +27,8 @@ dependencies:
     specifier: ^2.0.208
     version: 2.0.208(react@18.2.0)
   '@xata.io/client':
-    specifier: ^0.25.1
-    version: 0.25.1(typescript@5.1.6)
+    specifier: ^0.25.2
+    version: 0.25.2(typescript@5.1.6)
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
@@ -2280,9 +2280,9 @@ packages:
       eslint-visitor-keys: 3.4.2
     dev: true
 
-  /@xata.io/client@0.25.1(typescript@5.1.6):
+  /@xata.io/client@0.25.2(typescript@5.1.6):
     resolution:
-      { integrity: sha512-BPB+JX1URNvvSsL5crhWnWC3X0PlilQ14MJTwX3jShGXRyqgkb5/tRgntkHMI6IS8UgLHsPnCS02uf8JkuBHJQ== }
+      { integrity: sha512-W3eBfTM2PZzrH5+YLW6niasrgE31oHkVPqf5JW/hosq6M/2F2K4EUiwFoRKRnpsRUo9GP1VmqGvVX2eJAl73SA== }
     peerDependencies:
       typescript: '>=4.5'
     dependencies:

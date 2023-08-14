@@ -10,13 +10,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const image = (await xata.db.image.read(params.slug, [
-    'name',
-    'image.base64Content',
-    'image.name',
-    'image.url',
-    'image.attributes'
-  ])) as ImageRecord;
+  const image = (await xata.db.image.read(params.slug)) as ImageRecord;
 
   const { url: transformedUrl } = image.image?.transform({
     width: 294,

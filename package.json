@@ -19,7 +19,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fluentui/react-icons": "^2.0.208",
-    "@xata.io/client": "^0.25.1",
+    "@xata.io/client": "^0.25.2",
     "chroma-js": "^2.4.2",
     "lodash": "^4.17.21",
     "next": "13.4.12",
