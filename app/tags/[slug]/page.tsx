@@ -23,6 +23,7 @@ export default async function Page({
     .filter({
       'tag.id': params.slug
     })
+    // @ts-ignore-next-line TODO: Alexis will fix types
     .select(['*', 'image.image.url', 'image.image.attributes', 'image.image.name'])
     .getPaginated({
       pagination: { size: numOfImagePerPage, offset: numOfImagePerPage * pageNumber - numOfImagePerPage }
