@@ -44,8 +44,8 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
       <Flex mb={8} gap={2} wrap="wrap">
         <Link href="/">&laquo; Back to all images</Link>
       </Flex>
-      <Flex alignItems="start" flexGrow={1}>
-        <Flex alignItems="center" justifyContent="center" flexDir="column" grow={1}>
+      <Flex alignItems="start" flexGrow={1} gap={8} flexDir={{ base: 'column', lg: 'row' }}>
+        <Flex alignItems="center" justifyContent="center" flexDir="column" grow={1} w="full">
           <NextImage
             // @ts-ignore-next-line TODO: Alexis will fix types
             src={image.image.url}
@@ -57,7 +57,15 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
             style={{ maxWidth: '80%' }}
           />
         </Flex>
-        <Flex flexDir="column" gap={6} maxW={300} bg="contrastLowest" p={8} borderRadius="md">
+        <Flex
+          flexDir="column"
+          gap={6}
+          maxW={{ base: 'full', lg: 300 }}
+          bg="contrastLowest"
+          p={8}
+          borderRadius="md"
+          w="full"
+        >
           <FormControl>
             <FormLabel>Image name</FormLabel>
             <Text fontSize="sm">{image.name}</Text>

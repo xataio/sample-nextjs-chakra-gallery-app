@@ -6,7 +6,7 @@ export default async function Page({ searchParams }: { searchParams: { p: string
   const pageNumber = parseInt(searchParams.p, 10) || 1;
   const numOfImagePerPage = 8;
 
-  const paginatedRecords = await xata.db.image.getPaginated({
+  const paginatedRecords = await xata.db.image.sort('xata.createdAt', 'desc').getPaginated({
     pagination: { size: numOfImagePerPage, offset: numOfImagePerPage * pageNumber - numOfImagePerPage }
   });
 
