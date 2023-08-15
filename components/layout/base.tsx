@@ -17,7 +17,7 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
   const { toggleColorMode, colorMode } = useColorMode();
   const isDark = colorMode === 'dark';
   return (
-    <Flex flexDir="column" maxW={1200} margin="auto" minH="100vh">
+    <Flex flexDir="column" maxW={1200} minH="100vh" mx={{ base: 4, lg: 'auto' }}>
       <Flex justifyContent="space-between" py={8}>
         <NextLink href="/">
           <XataWordMarkIcon />
