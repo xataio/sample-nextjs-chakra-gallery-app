@@ -14,9 +14,9 @@ export default async function Page({
   searchParams
 }: {
   params: { slug: string };
-  searchParams: { p: string };
+  searchParams: { page: string };
 }) {
-  const pageNumber = parseInt(searchParams.p, 10) || 1;
+  const pageNumber = parseInt(searchParams.page, 10) ?? 1;
   const numOfImagePerPage = 8;
 
   const recordsWithTag = await xata.db['tag-to-image']

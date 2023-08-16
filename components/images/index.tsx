@@ -1,10 +1,11 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
 import { Flex, Heading, Select, SimpleGrid, Tag } from '@chakra-ui/react';
+import { range } from 'lodash';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FC, useState } from 'react';
+import { FC } from 'react';
 import { ImageRecord, TagRecord } from '~/utils/xata';
 import { BaseLayout } from '../layout/base';
 import { Search } from '../search';
@@ -31,20 +32,15 @@ export type Page = {
   totalNumberOfPages: number;
 };
 
-interface ImagesProps {
+type ImagesProps = {
   images: ImageRecordWithThumb[];
   tags: TagWithCount[];
   page: Page;
-}
+};
 
 export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
-  const [selectedPageNumber, setSelectedPageNumber] = useState(page.pageNumber);
-
+  const currentPage = page.pageNumber;
   const router = useRouter();
-  const handlePageChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPageNumber(parseInt(event.target.value));
-    router.push(`?p=${event.target.value}`);
-  };
 
   return (
     <BaseLayout>
@@ -89,15 +85,10 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
         </>
       )}
       <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={2}>
-        {images.map((image) => {
+        {images.map(({ id, name, thumb }) => {
           return (
-            <NextLink key={image.id} href={`/images/${image.id}`}>
-              <Image
-                src={image.thumb.url}
-                width={image.thumb.attributes.width}
-                height={image.thumb.attributes.height}
-                alt={image.name}
-              />
+            <NextLink key={id} href={`/images/${id}`}>
+              <Image src={thumb.url} width={thumb.attributes.width} height={thumb.attributes.height} alt={name} />
             </NextLink>
           );
         })}
@@ -105,16 +96,16 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
       {page.totalNumberOfPages > 1 && (
         <Flex justifyContent="center" mt={4}>
           <Flex gap={4} alignItems="center">
-            {page.hasPrevousPage && <Link href={`?p=${page.pageNumber - 1}`}>Previous</Link>}
-            <Select onChange={handlePageChange} value={selectedPageNumber}>
-              {Array.from(Array(page.totalNumberOfPages).keys()).map((pageNumber) => (
-                <option key={pageNumber} value={pageNumber + 1}>
-                  {pageNumber + 1}
+            {page.hasPrevousPage && <Link href={`?page=${currentPage - 1}`}>Previous</Link>}
+            <Select onChange={(event) => router.push(`?page=${event.target.value}`)} value={currentPage}>
+              {range(1, page.totalNumberOfPages).map((pageNumber) => (
+                <option key={pageNumber} value={pageNumber}>
+                  {pageNumber}
                 </option>
               ))}
             </Select>
 
-            {page.hasNextPage && <Link href={`?p=${page.pageNumber + 1}`}>Next</Link>}
+            {page.hasNextPage && <Link href={`?page=${currentPage + 1}`}>Next</Link>}
           </Flex>
         </Flex>
       )}
