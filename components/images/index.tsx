@@ -27,7 +27,7 @@ export type TagWithCount = TagRecord & {
 export type Page = {
   pageNumber: number;
   hasNextPage: boolean;
-  hasPrevousPage: boolean;
+  hasPreviousPage: boolean;
   totalNumberOfPages: number;
 };
 
@@ -105,7 +105,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
       {page.totalNumberOfPages > 1 && (
         <Flex justifyContent="center" mt={4}>
           <Flex gap={4} alignItems="center">
-            {page.hasPrevousPage && <Link href={`?p=${page.pageNumber - 1}`}>Previous</Link>}
+            {page.hasPreviousPage && <Link href={`?p=${page.pageNumber - 1}`}>Previous</Link>}
             <Select onChange={handlePageChange} value={selectedPageNumber}>
               {Array.from(Array(page.totalNumberOfPages).keys()).map((pageNumber) => (
                 <option key={pageNumber} value={pageNumber + 1}>

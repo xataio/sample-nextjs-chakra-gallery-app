@@ -71,7 +71,7 @@ export default async function Page({
   const page = {
     pageNumber,
     hasNextPage: recordsWithTag.hasNextPage(),
-    hasPrevousPage: pageNumber > 1,
+    hasPreviousPage: pageNumber > 1,
     totalNumberOfPages: totalNumberOfPages
   };
 

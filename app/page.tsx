@@ -19,7 +19,7 @@ export default async function Page({ searchParams }: { searchParams: { p: string
   const page = {
     pageNumber,
     hasNextPage: paginatedRecords.hasNextPage(),
-    hasPrevousPage: pageNumber > 1,
+    hasPreviousPage: pageNumber > 1,
     totalNumberOfPages
   };
 
