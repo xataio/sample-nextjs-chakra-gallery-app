@@ -1,5 +1,5 @@
 import { compact } from 'lodash';
-import { Images, TagWithCount } from '~/components/images';
+import { Images, TagWithImageCount } from '~/components/images';
 import { getXataClient } from '~/utils/xata';
 
 const imagesPerPageCount = 8;
@@ -12,7 +12,6 @@ const getImageCount = async () => {
   return totalNumberOfImages.aggs.totalCount;
 };
 
-// todo: richard rename p -> page for clarity?
 export default async function Page({ searchParams }: { searchParams: { page: string } }) {
   const pageNumber = parseInt(searchParams.page, 10) ?? 1;
 
@@ -42,7 +41,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
     ]
   });
 
-  const transformedRecords = compact(
+  const images = compact(
     paginatedRecords.records.map((record) => {
       if (!record.image) {
         return undefined;
@@ -66,10 +65,10 @@ export default async function Page({ searchParams }: { searchParams: { page: str
     })
   );
 
-  const tagsWithTotalImages = topTags.summaries.map((tagSummary) => ({
+  const tags = topTags.summaries.map((tagSummary) => ({
     ...tagSummary.tag,
-    totalImages: tagSummary.totalImages
-  })) as TagWithCount[];
+    imageCount: tagSummary.totalImages
+  })) as TagWithImageCount[];
 
-  return <Images images={transformedRecords} tags={tagsWithTotalImages} page={page} />;
+  return <Images images={images} tags={tags} page={page} />;
 }

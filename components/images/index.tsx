@@ -21,8 +21,8 @@ export type ImageRecordWithThumb = ImageRecord & {
   };
 };
 
-export type TagWithCount = TagRecord & {
-  totalImages: number;
+export type TagWithImageCount = TagRecord & {
+  imageCount: number;
 };
 
 export type Page = {
@@ -34,7 +34,7 @@ export type Page = {
 
 type ImagesProps = {
   images: ImageRecordWithThumb[];
-  tags: TagWithCount[];
+  tags: TagWithImageCount[];
   page: Page;
 };
 
@@ -67,7 +67,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
                     borderRadius="md"
                     color="contrastMedium"
                   >
-                    {tag.totalImages}
+                    {tag.imageCount}
                   </Flex>
                 </Tag>
               ))}
@@ -77,7 +77,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
       ) : (
         <>
           <Heading as="h1" size="md" mb={8}>
-            {tags[0].totalImages} images tagged with <Tag>{tags[0].name}</Tag>
+            {tags[0].imageCount} images tagged with <Tag>{tags[0].name}</Tag>
           </Heading>
           <Flex mb={8} gap={2} wrap="wrap">
             <Link href="/">&laquo; Back to all images</Link>
