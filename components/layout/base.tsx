@@ -46,24 +46,24 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
         <Flex alignItems="center" gap={3}>
           <IconButton
             variant="ghost"
-            aria-label="Go to xata discord"
+            aria-label="Go to xata on GithHub"
             as={Link}
             icon={<GitHubIcon boxSize={5} />}
-            href="https://xata.io/discord"
+            href="https://github.com/xataio"
           />
           <IconButton
             variant="ghost"
-            aria-label="Go to xata discord"
+            aria-label="Go to Xata on Discord"
             as={Link}
             icon={<DiscordIcon boxSize={5} />}
             href="https://xata.io/discord"
           />
           <IconButton
             variant="ghost"
-            aria-label="Go to xata discord"
+            aria-label="Go to Xata on Twitter"
             as={Link}
             icon={<TwitterIcon boxSize={5} />}
-            href="https://xata.io/discord"
+            href="https://twitter.com/xata"
           />
         </Flex>
       </Flex>
