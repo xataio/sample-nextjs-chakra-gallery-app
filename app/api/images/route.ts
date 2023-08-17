@@ -5,6 +5,9 @@ import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
+
 export async function POST(request: Request) {
   const formData = await request.formData();
   const file = formData.get('file') as File;

@@ -3,6 +3,9 @@ import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
+
 export async function DELETE(request: Request, { params }: { params: { imageId: string } }) {
   const { imageId } = params;
   if (!imageId) {
