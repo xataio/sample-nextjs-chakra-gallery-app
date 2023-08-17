@@ -1,16 +1,9 @@
 import { compact } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
 import { imageSize, imagesPerPageCount } from '~/utils/contants';
-import { TagRecord, getXataClient } from '~/utils/xata';
+import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
-
-export async function generateStaticParams() {
-  const tags: TagRecord[] = await xata.db.tag.getMany();
-  return tags.map((tag) => ({
-    slug: tag.id
-  }));
-}
 
 const getTagImageCount = async (slug: string) => {
   const summarizeTag = await xata.db['tag-to-image']

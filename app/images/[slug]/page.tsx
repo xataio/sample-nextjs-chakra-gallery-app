@@ -5,13 +5,6 @@ import { ImageRecord, TagRecord, getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
-export async function generateStaticParams() {
-  const images: ImageRecord[] = await xata.db.image.getMany();
-  return images.map((image) => ({
-    slug: image.id
-  }));
-}
-
 const getImage = async (slug: string) => {
   const image = (await xata.db.image.read(slug)) as ImageRecord;
   if (!image?.image) {
