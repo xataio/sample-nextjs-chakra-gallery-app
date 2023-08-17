@@ -5,6 +5,9 @@ import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
+
 export async function POST(request: Request) {
   const formData = await request.formData();
   const file = formData.get('file') as File;
@@ -14,7 +17,7 @@ export async function POST(request: Request) {
   const tagsArray = tags ? (tags as string).split(',').map((tag) => tag.trim()) : [];
 
   const fileName: string = file.name;
-  const fileData = await file.arrayBuffer().then((buffer) => Buffer.from(buffer));
+  const fileData = Buffer.from(await file.arrayBuffer());
   const mimeType = file.type;
 
   const record = await xata.db.image.create({
@@ -25,8 +28,6 @@ export async function POST(request: Request) {
       base64Content: fileData.toString('base64')
     }
   });
-
-  console.log('record', record);
 
   await xata.db.tag.createOrUpdate([
     ...tagsArray.map((tag) => ({
@@ -46,5 +47,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ success: true, record });
+  return NextResponse.json(record);
 }

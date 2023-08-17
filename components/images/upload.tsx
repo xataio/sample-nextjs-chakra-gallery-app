@@ -31,7 +31,7 @@ export const ImageUpload = () => {
     e.preventDefault();
 
     if (!file || !name || !tags) {
-      setMessage('Name and file are required.');
+      setMessage('Name, file and tags are required.');
       return;
     }
 
@@ -41,16 +41,14 @@ export const ImageUpload = () => {
     formData.append('tags', tags);
 
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/api/images', {
         method: 'POST',
         body: formData
       });
 
-      const result = await response.json();
+      const image = await response.json();
 
-      console.log(result);
-
-      if (result.success) {
+      if (response.status === 200) {
         toast({
           title: 'Image uploaded.',
           description: 'Your image was uploaded successfully.',
@@ -58,16 +56,15 @@ export const ImageUpload = () => {
           duration: 5000,
           isClosable: true
         });
-        router.push(`/images/${result.record.id}`);
+        router.push(`/images/${image.id}`);
       } else {
-        setMessage('Error uploading image.');
+        throw new Error("Couldn't upload image");
       }
     } catch (error) {
       setMessage('An error occurred while uploading the image.');
     }
   };
 
-  // TODO: Alexis will find a better type?
   const handleFileChange = (e: any) => {
     setFile(e.target.files[0]);
   };

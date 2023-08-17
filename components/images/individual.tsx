@@ -19,18 +19,18 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
   const router = useRouter();
   const toast = useToast();
   const handleDelete = async () => {
-    await fetch(`/api/delete?id=${image.id}`);
-    router.push('/');
-    toast({
-      title: 'Image deleted',
-      description: `Image ${image.name} has been deleted`,
-      status: 'success',
-      duration: 3000,
-      isClosable: true
-    });
+    const response = await fetch(`/api/images/${image.id}`, { method: 'DELETE' });
+    if (response.status === 200) {
+      router.push('/');
+      toast({
+        title: 'Image deleted',
+        description: `Image ${image.name} has been deleted`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true
+      });
+    }
   };
-
-  console.log('image', image);
 
   return (
     <BaseLayout>
@@ -73,7 +73,10 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
           <FormControl>
             <FormLabel>Image URL</FormLabel>
             {/* @ts-ignore-next-line TODO: Alexis will fix types */}
-            <Text fontSize="sm">{image.image.url}</Text>
+            <Text fontSize="sm" as="a" href={image.image.url}>
+              {/* @ts-ignore-next-line TODO: Alexis will fix types */}
+              {image.image.url}
+            </Text>
           </FormControl>
           <FormControl>
             <FormLabel>Image width</FormLabel>

@@ -14,7 +14,13 @@ Add the following to an `.env` file
 
 ```bash
 XATA_BRANCH=main
-XATA_API_KEY=
+XATA_API_KEY=xau_yourapikey
+```
+
+Install dependencies
+
+```bash
+pnpm install
 ```
 
 Then start the runserver

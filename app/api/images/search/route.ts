@@ -7,7 +7,7 @@ const xata = getXataClient();
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const searchQuery = searchParams.get('q') ?? '';
+  const searchQuery = searchParams.get('query') ?? '';
 
   const results = await xata.search.all(searchQuery, {
     tables: [

@@ -1,43 +1,47 @@
+import { notFound } from 'next/navigation';
 import { Image } from '~/components/images/individual';
+import { imageSize } from '~/utils/contants';
 import { ImageRecord, TagRecord, getXataClient } from '~/utils/xata';
+
 const xata = getXataClient();
 
-export async function generateStaticParams() {
-  const images: ImageRecord[] = await xata.db.image.getMany();
-  return images.map((image) => ({
-    slug: image.id
-  }));
-}
-
-export default async function Page({ params }: { params: { slug: string } }) {
-  const image = (await xata.db.image.read(params.slug)) as ImageRecord;
-
-  // @ts-ignore-next-line TODO: Alexis will fix types
-  const { url: transformedUrl } = image.image?.transform({
-    width: 294,
-    height: 294,
+const getImage = async (slug: string) => {
+  const image = (await xata.db.image.read(slug)) as ImageRecord;
+  if (!image?.image) {
+    return undefined;
+  }
+  const { url } = image.image.transform({
+    width: imageSize,
+    height: imageSize,
     format: 'auto',
     fit: 'cover',
     gravity: 'top'
   });
-
+  if (!url) {
+    return undefined;
+  }
   const thumb = {
-    url: transformedUrl,
-    attributes: { width: 294, height: 294 }
+    url,
+    attributes: { width: imageSize, height: imageSize }
   };
-
-  // @ts-ignore-next-line TODO: Alexis will fix types
+  // @ts-ignore todo: richard fix
   image.image.thumb = thumb;
+  return image;
+};
 
+export default async function Page({ params: { slug } }: { params: { slug: string } }) {
+  const image = await getImage(slug);
+  if (!image) {
+    notFound();
+  }
   const tagsFromImage = await xata.db['tag-to-image']
     .filter({
-      'image.id': params.slug
+      'image.id': slug
     })
     .select(['*', 'tag.*'])
     .getMany();
 
   const tags = tagsFromImage.map((tag) => tag.tag) as TagRecord[];
 
-  // eslint-disable-next-line jsx-a11y/alt-text
   return <Image image={image} tags={tags} />;
 }
