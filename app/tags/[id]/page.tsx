@@ -5,10 +5,10 @@ import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
-const getTagImageCount = async (slug: string) => {
+const getTagImageCount = async (id: string) => {
   const summarizeTag = await xata.db['tag-to-image']
     .filter({
-      'tag.id': slug
+      'tag.id': id
     })
     .summarize({
       columns: ['tag'],
@@ -20,19 +20,18 @@ const getTagImageCount = async (slug: string) => {
   return summarizeTag.summaries[0] ? summarizeTag.summaries[0].totalCount : 0;
 };
 
-//todo: richard rename slug to tagId?
 export default async function Page({
-  params: { slug },
+  params: { id },
   searchParams
 }: {
-  params: { slug: string };
+  params: { id: string };
   searchParams: { page: string };
 }) {
   const pageNumber = parseInt(searchParams.page) || 1;
 
   const recordsWithTag = await xata.db['tag-to-image']
     .filter({
-      'tag.id': slug
+      'tag.id': id
     })
     // @ts-ignore-next-line TODO: Alexis to fix SDK types
     .select(['*', 'image.image.url', 'image.image.attributes', 'image.image.name'])
@@ -64,9 +63,9 @@ export default async function Page({
     })
   );
 
-  const tagImageCount = await getTagImageCount(slug);
+  const tagImageCount = await getTagImageCount(id);
 
-  const tag = await xata.db.tag.read(slug);
+  const tag = await xata.db.tag.read(id);
   const tagWithCount = {
     ...tag,
     imageCount: tagImageCount
