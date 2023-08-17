@@ -26,8 +26,6 @@ export async function POST(request: Request) {
     }
   });
 
-  console.log('record', record);
-
   await xata.db.tag.createOrUpdate([
     ...tagsArray.map((tag) => ({
       id: slugify(tag, { lower: true }),
@@ -46,5 +44,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ success: true, record });
+  return NextResponse.json(record);
 }

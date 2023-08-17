@@ -19,15 +19,17 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
   const router = useRouter();
   const toast = useToast();
   const handleDelete = async () => {
-    await fetch(`/api/delete?id=${image.id}`);
-    router.push('/');
-    toast({
-      title: 'Image deleted',
-      description: `Image ${image.name} has been deleted`,
-      status: 'success',
-      duration: 3000,
-      isClosable: true
-    });
+    const response = await fetch(`/api/images/${image.id}`, { method: 'DELETE' });
+    if (response.status === 200) {
+      router.push('/');
+      toast({
+        title: 'Image deleted',
+        description: `Image ${image.name} has been deleted`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true
+      });
+    }
   };
 
   return (

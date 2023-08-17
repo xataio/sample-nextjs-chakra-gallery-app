@@ -24,7 +24,7 @@ const getTagImageCount = async (slug: string) => {
       }
     });
 
-  return summarizeTag.summaries[0].totalCount;
+  return summarizeTag.summaries[0] ? summarizeTag.summaries[0].totalCount : 0;
 };
 
 //todo: richard rename slug to tagId?

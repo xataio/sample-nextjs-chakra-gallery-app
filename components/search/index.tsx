@@ -47,7 +47,7 @@ export const Search: FC = () => {
         return;
       }
       setIsLoadingSearch(true);
-      const response = await fetch(`/api/search?q=${searchQuery}`);
+      const response = await fetch(`/api/images/search?query=${searchQuery}`);
       const results = await response.json();
       setFocused(results[0]);
 

@@ -41,7 +41,7 @@ export const ImageUpload = () => {
     formData.append('tags', tags);
 
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/api/images', {
         method: 'POST',
         body: formData
       });
@@ -50,7 +50,7 @@ export const ImageUpload = () => {
 
       console.log(result);
 
-      if (result.success) {
+      if (response.status === 200) {
         toast({
           title: 'Image uploaded.',
           description: 'Your image was uploaded successfully.',
@@ -58,7 +58,7 @@ export const ImageUpload = () => {
           duration: 5000,
           isClosable: true
         });
-        router.push(`/images/${result.record.id}`);
+        router.push(`/images/${result.id}`);
       } else {
         setMessage('Error uploading image.');
       }
