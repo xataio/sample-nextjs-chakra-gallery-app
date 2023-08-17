@@ -5,8 +5,8 @@ import { ImageRecord, TagRecord, getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
-const getImage = async (slug: string) => {
-  const image = (await xata.db.image.read(slug)) as ImageRecord;
+const getImage = async (id: string) => {
+  const image = (await xata.db.image.read(id)) as ImageRecord;
   if (!image?.image) {
     return undefined;
   }
@@ -29,14 +29,14 @@ const getImage = async (slug: string) => {
   return image;
 };
 
-export default async function Page({ params: { slug } }: { params: { slug: string } }) {
-  const image = await getImage(slug);
+export default async function Page({ params: { id } }: { params: { id: string } }) {
+  const image = await getImage(id);
   if (!image) {
     notFound();
   }
   const tagsFromImage = await xata.db['tag-to-image']
     .filter({
-      'image.id': slug
+      'image.id': id
     })
     .select(['*', 'tag.*'])
     .getMany();
