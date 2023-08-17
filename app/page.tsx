@@ -13,7 +13,6 @@ const getImageCount = async () => {
 };
 
 export default async function Page({ searchParams }: { searchParams: { page: string } }) {
-  console.log('searchParams', searchParams);
   const pageNumber = parseInt(searchParams.page) || 1;
 
   const imagesPage = await xata.db.image.sort('xata.createdAt', 'desc').getPaginated({
@@ -26,7 +25,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
   const page = {
     pageNumber,
     hasNextPage: imagesPage.hasNextPage(),
-    hasPrevousPage: pageNumber > 1,
+    hasPreviousPage: pageNumber > 1,
     totalNumberOfPages
   };
 
