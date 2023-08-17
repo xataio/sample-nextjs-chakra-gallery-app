@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { DiscordIcon } from '../icons/discord';
 import { GitHubIcon } from '../icons/github';
 import { TwitterIcon } from '../icons/twitter';
-import { XataWordMarkIcon } from '../icons/xata_wordmark';
+import { XataWordMarkIcon } from '../icons/xataWordmark';
 
 interface BaseLayoutProps {
   children: React.ReactNode;
