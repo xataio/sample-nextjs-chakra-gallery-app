@@ -73,7 +73,10 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
           <FormControl>
             <FormLabel>Image URL</FormLabel>
             {/* @ts-ignore-next-line TODO: Alexis will fix types */}
-            <Text fontSize="sm">{image.image.url}</Text>
+            <Text fontSize="sm" as="a" href={image.image.url}>
+              {/* @ts-ignore-next-line TODO: Alexis will fix types */}
+              {image.image.url}
+            </Text>
           </FormControl>
           <FormControl>
             <FormLabel>Image width</FormLabel>

@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   const tagsArray = tags ? (tags as string).split(',').map((tag) => tag.trim()) : [];
 
   const fileName: string = file.name;
-  const fileData = await file.arrayBuffer().then((buffer) => Buffer.from(buffer));
+  const fileData = Buffer.from(await file.arrayBuffer());
   const mimeType = file.type;
 
   const record = await xata.db.image.create({
