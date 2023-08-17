@@ -98,7 +98,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
           <Flex gap={4} alignItems="center">
             {page.hasPrevousPage && <Link href={`?page=${currentPage - 1}`}>Previous</Link>}
             <Select onChange={(event) => router.push(`?page=${event.target.value}`)} value={currentPage}>
-              {range(1, page.totalNumberOfPages).map((pageNumber) => (
+              {range(1, page.totalNumberOfPages + 1).map((pageNumber) => (
                 <option key={pageNumber} value={pageNumber}>
                   {pageNumber}
                 </option>

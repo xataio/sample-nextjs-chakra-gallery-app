@@ -1,8 +1,8 @@
 import { compact } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
+import { imageSize, imagesPerPageCount } from '~/utils/contants';
 import { getXataClient } from '~/utils/xata';
 
-const imagesPerPageCount = 8;
 const xata = getXataClient();
 
 const getImageCount = async () => {
@@ -13,9 +13,10 @@ const getImageCount = async () => {
 };
 
 export default async function Page({ searchParams }: { searchParams: { page: string } }) {
-  const pageNumber = parseInt(searchParams.page, 10) ?? 1;
+  console.log('searchParams', searchParams);
+  const pageNumber = parseInt(searchParams.page) || 1;
 
-  const paginatedRecords = await xata.db.image.sort('xata.createdAt', 'desc').getPaginated({
+  const imagesPage = await xata.db.image.sort('xata.createdAt', 'desc').getPaginated({
     pagination: { size: imagesPerPageCount, offset: imagesPerPageCount * pageNumber - imagesPerPageCount }
   });
 
@@ -24,7 +25,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
 
   const page = {
     pageNumber,
-    hasNextPage: paginatedRecords.hasNextPage(),
+    hasNextPage: imagesPage.hasNextPage(),
     hasPrevousPage: pageNumber > 1,
     totalNumberOfPages
   };
@@ -32,23 +33,23 @@ export default async function Page({ searchParams }: { searchParams: { page: str
   const topTags = await xata.db['tag-to-image'].summarize({
     columns: ['tag'],
     summaries: {
-      totalImages: { count: '*' }
+      imageCount: { count: '*' }
     },
     sort: [
       {
-        totalImages: 'desc'
+        imageCount: 'desc'
       }
     ]
   });
 
   const images = compact(
-    paginatedRecords.records.map((record) => {
+    imagesPage.records.map((record) => {
       if (!record.image) {
         return undefined;
       }
       const { url } = record.image.transform({
-        width: 294,
-        height: 294,
+        width: imageSize,
+        height: imageSize,
         format: 'auto',
         fit: 'cover',
         gravity: 'top'
@@ -58,7 +59,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
       }
       const thumb = {
         url,
-        attributes: { width: 294, height: 294 }
+        attributes: { width: imageSize, height: imageSize }
       };
 
       return { ...record, thumb };
@@ -67,7 +68,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
 
   const tags = topTags.summaries.map((tagSummary) => ({
     ...tagSummary.tag,
-    imageCount: tagSummary.totalImages
+    imageCount: tagSummary.imageCount
   })) as TagWithImageCount[];
 
   return <Images images={images} tags={tags} page={page} />;

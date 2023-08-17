@@ -30,8 +30,6 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
     });
   };
 
-  console.log('image', image);
-
   return (
     <BaseLayout>
       <Flex alignItems="center" justifyContent="space-between" mb={8} w="full">
