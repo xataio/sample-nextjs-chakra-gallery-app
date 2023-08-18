@@ -1,6 +1,6 @@
 import { compact } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
-import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/contants';
+import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/constants';
 import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
