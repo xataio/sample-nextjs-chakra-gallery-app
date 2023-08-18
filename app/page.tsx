@@ -61,12 +61,12 @@ export default async function Page({ searchParams }: { searchParams: { page: str
         attributes: { width: imageSize, height: imageSize }
       };
 
-      return { ...record, thumb };
+      return { ...record.toSerializable(), thumb };
     })
   );
 
   const tags = topTags.summaries.map((tagSummary) => ({
-    ...tagSummary.tag,
+    ...tagSummary.tag?.toSerializable(),
     imageCount: tagSummary.imageCount
   })) as TagWithImageCount[];
 

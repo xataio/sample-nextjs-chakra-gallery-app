@@ -1,6 +1,7 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
 import { Flex, Heading, Select, SimpleGrid, Tag } from '@chakra-ui/react';
+import { JSONData } from '@xata.io/client';
 import { range } from 'lodash';
 import Image from 'next/image';
 import NextLink from 'next/link';
@@ -11,7 +12,7 @@ import { BaseLayout } from '../layout/base';
 import { Search } from '../search';
 import { ImageUpload } from './upload';
 
-export type ImageRecordWithThumb = ImageRecord & {
+export type ImageRecordWithThumb = JSONData<ImageRecord> & {
   thumb: {
     url: string;
     attributes: {
@@ -21,7 +22,7 @@ export type ImageRecordWithThumb = ImageRecord & {
   };
 };
 
-export type TagWithImageCount = TagRecord & {
+export type TagWithImageCount = JSONData<TagRecord> & {
   imageCount: number;
 };
 
@@ -88,7 +89,12 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
         {images.map(({ id, name, thumb }) => {
           return (
             <NextLink key={id} href={`/images/${id}`}>
-              <Image src={thumb.url} width={thumb.attributes.width} height={thumb.attributes.height} alt={name} />
+              <Image
+                src={thumb.url}
+                width={thumb.attributes.width}
+                height={thumb.attributes.height}
+                alt={name ?? 'unknown image'}
+              />
             </NextLink>
           );
         })}

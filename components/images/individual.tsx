@@ -1,6 +1,7 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Tag, Text, useToast } from '@chakra-ui/react';
+import { JSONData } from '@xata.io/client';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -11,8 +12,8 @@ import { Search } from '../search';
 import { ImageUpload } from './upload';
 
 interface ImageProps {
-  image: ImageRecord;
-  tags: TagRecord[];
+  image: JSONData<ImageRecord>;
+  tags: JSONData<TagRecord>[];
 }
 
 export const Image: FC<ImageProps> = ({ image, tags }) => {
@@ -54,6 +55,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
             width={image.image.attributes.width}
             // @ts-ignore-next-line
             height={image.image.attributes.height}
+            // @ts-ignore-next-line
             alt={image.name}
             style={{ maxWidth: '80%' }}
           />

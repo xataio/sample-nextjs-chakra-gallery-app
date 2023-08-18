@@ -59,7 +59,7 @@ export default async function Page({
         attributes: { width: imageSize, height: imageSize }
       };
 
-      return { ...record.image, thumb };
+      return { ...record.image.toSerializable(), thumb };
     })
   );
 
@@ -67,7 +67,7 @@ export default async function Page({
 
   const tag = await xata.db.tag.read(id);
   const tagWithCount = {
-    ...tag,
+    ...tag?.toSerializable(),
     imageCount: tagImageCount
   } as TagWithImageCount;
 
