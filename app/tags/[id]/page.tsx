@@ -1,6 +1,6 @@
 import { compact } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
-import { imageSize, imagesPerPageCount } from '~/utils/contants';
+import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/contants';
 import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
@@ -36,7 +36,7 @@ export default async function Page({
     // @ts-ignore-next-line TODO: Alexis to fix SDK types
     .select(['*', 'image.image.url', 'image.image.attributes', 'image.image.name'])
     .getPaginated({
-      pagination: { size: imagesPerPageCount, offset: imagesPerPageCount * pageNumber - imagesPerPageCount }
+      pagination: { size: IMAGES_PER_PAGE_COUNT, offset: IMAGES_PER_PAGE_COUNT * pageNumber - IMAGES_PER_PAGE_COUNT }
     });
 
   const imageRecords = compact(
@@ -45,8 +45,8 @@ export default async function Page({
         return undefined;
       }
       const { url } = record.image?.image?.transform({
-        width: imageSize,
-        height: imageSize,
+        width: IMAGE_SIZE,
+        height: IMAGE_SIZE,
         format: 'auto',
         fit: 'cover',
         gravity: 'top'
@@ -56,7 +56,7 @@ export default async function Page({
       }
       const thumb = {
         url,
-        attributes: { width: imageSize, height: imageSize }
+        attributes: { width: IMAGE_SIZE, height: IMAGE_SIZE }
       };
 
       return { ...record.image.toSerializable(), thumb };
@@ -71,7 +71,7 @@ export default async function Page({
     imageCount: tagImageCount
   } as TagWithImageCount;
 
-  const totalNumberOfPages = Math.ceil(tagImageCount / imagesPerPageCount);
+  const totalNumberOfPages = Math.ceil(tagImageCount / IMAGES_PER_PAGE_COUNT);
 
   const page = {
     pageNumber,

@@ -1,6 +1,6 @@
 import { compact, pick } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
-import { imageSize, imagesPerPageCount } from '~/utils/contants';
+import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/contants';
 import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
@@ -16,11 +16,11 @@ export default async function Page({ searchParams }: { searchParams: { page: str
   const pageNumber = parseInt(searchParams.page) || 1;
 
   const imagesPage = await xata.db.image.sort('xata.createdAt', 'desc').getPaginated({
-    pagination: { size: imagesPerPageCount, offset: imagesPerPageCount * pageNumber - imagesPerPageCount }
+    pagination: { size: IMAGES_PER_PAGE_COUNT, offset: IMAGES_PER_PAGE_COUNT * pageNumber - IMAGES_PER_PAGE_COUNT }
   });
 
   const imageCount = await getImageCount();
-  const totalNumberOfPages = Math.ceil(imageCount / imagesPerPageCount);
+  const totalNumberOfPages = Math.ceil(imageCount / IMAGES_PER_PAGE_COUNT);
 
   const page = {
     pageNumber,
@@ -47,8 +47,8 @@ export default async function Page({ searchParams }: { searchParams: { page: str
         return undefined;
       }
       const { url } = record.image.transform({
-        width: imageSize,
-        height: imageSize,
+        width: IMAGE_SIZE,
+        height: IMAGE_SIZE,
         format: 'auto',
         fit: 'cover',
         gravity: 'top'
@@ -58,7 +58,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
       }
       const thumb = {
         url,
-        attributes: { width: imageSize, height: imageSize }
+        attributes: { width: IMAGE_SIZE, height: IMAGE_SIZE }
       };
 
       return { ...record.toSerializable(), thumb };

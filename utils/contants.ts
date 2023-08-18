@@ -1,2 +1,2 @@
-export const imageSize = 294;
-export const imagesPerPageCount = 8;
+export const IMAGE_SIZE = 294;
+export const IMAGES_PER_PAGE_COUNT = 8;
