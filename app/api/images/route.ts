@@ -47,5 +47,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json(record);
+  return NextResponse.json(record.toSerializable());
 }
