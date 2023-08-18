@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { Image } from '~/components/images/individual';
-import { imageSize } from '~/utils/contants';
 import { ImageRecord, TagRecord, getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
@@ -10,22 +9,6 @@ const getImage = async (id: string) => {
   if (!image?.image) {
     return undefined;
   }
-  const { url } = image.image.transform({
-    width: imageSize,
-    height: imageSize,
-    format: 'auto',
-    fit: 'cover',
-    gravity: 'top'
-  });
-  if (!url) {
-    return undefined;
-  }
-  const thumb = {
-    url,
-    attributes: { width: imageSize, height: imageSize }
-  };
-  // @ts-ignore todo: richard fix
-  image.image.thumb = thumb;
   return image;
 };
 

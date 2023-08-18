@@ -21,6 +21,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
   const handleDelete = async () => {
     const response = await fetch(`/api/images/${image.id}`, { method: 'DELETE' });
     if (response.status === 200) {
+      router.refresh();
       router.push('/');
       toast({
         title: 'Image deleted',
