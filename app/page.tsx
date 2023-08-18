@@ -1,4 +1,4 @@
-import { compact } from 'lodash';
+import { compact, pick } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
 import { imageSize, imagesPerPageCount } from '~/utils/contants';
 import { getXataClient } from '~/utils/xata';
@@ -61,14 +61,19 @@ export default async function Page({ searchParams }: { searchParams: { page: str
         attributes: { width: imageSize, height: imageSize }
       };
 
-      return { ...record, thumb };
+      return { ...record.toSerializable(), thumb };
     })
   );
 
-  const tags = topTags.summaries.map((tagSummary) => ({
-    ...tagSummary.tag,
-    imageCount: tagSummary.imageCount
-  })) as TagWithImageCount[];
+  const tags = topTags.summaries.map((tagSummary) => {
+    console.log('zzz alexis this is undefined', tagSummary.tag?.toSerializable);
+    const tag = tagSummary.tag;
+    const serializableTag = pick(tag, ['id', 'name', 'slug']);
+    return {
+      ...serializableTag,
+      imageCount: tagSummary.imageCount
+    };
+  }) as TagWithImageCount[];
 
   return <Images images={images} tags={tags} page={page} />;
 }

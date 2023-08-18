@@ -1,6 +1,7 @@
+import { JSONData } from '@xata.io/client';
+import { compact } from 'lodash';
 import { notFound } from 'next/navigation';
 import { Image } from '~/components/images/individual';
-import { imageSize } from '~/utils/contants';
 import { ImageRecord, TagRecord, getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
@@ -10,23 +11,7 @@ const getImage = async (id: string) => {
   if (!image?.image) {
     return undefined;
   }
-  const { url } = image.image.transform({
-    width: imageSize,
-    height: imageSize,
-    format: 'auto',
-    fit: 'cover',
-    gravity: 'top'
-  });
-  if (!url) {
-    return undefined;
-  }
-  const thumb = {
-    url,
-    attributes: { width: imageSize, height: imageSize }
-  };
-  // @ts-ignore todo: richard fix
-  image.image.thumb = thumb;
-  return image;
+  return image.toSerializable();
 };
 
 export default async function Page({ params: { id } }: { params: { id: string } }) {
@@ -41,7 +26,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
     .select(['*', 'tag.*'])
     .getMany();
 
-  const tags = tagsFromImage.map((tag) => tag.tag) as TagRecord[];
+  const tags = compact(tagsFromImage.map((tag) => tag.tag?.toSerializable())) as JSONData<TagRecord>[];
 
   return <Image image={image} tags={tags} />;
 }
