@@ -38,7 +38,10 @@ export default async function Page({ searchParams }: { searchParams: { page: str
       {
         imageCount: 'desc'
       }
-    ]
+    ],
+    pagination: {
+      size: 10
+    }
   });
 
   const images = compact(
@@ -66,7 +69,6 @@ export default async function Page({ searchParams }: { searchParams: { page: str
   );
 
   const tags = topTags.summaries.map((tagSummary) => {
-    console.log('zzz alexis this is undefined', tagSummary.tag?.toSerializable);
     const tag = tagSummary.tag;
     const serializableTag = pick(tag, ['id', 'name', 'slug']);
     return {
