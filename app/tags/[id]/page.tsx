@@ -5,6 +5,7 @@ import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
 
+// Xata provides a summarize helper to get the total number of images for a tag
 const getTagImageCount = async (id: string) => {
   const summarizeTag = await xata.db['tag-to-image']
     .filter({
@@ -29,6 +30,7 @@ export default async function Page({
 }) {
   const pageNumber = parseInt(searchParams.page) || 1;
 
+  // We use Xata's getPaginated helper to get a paginated list of images matching this tag
   const recordsWithTag = await xata.db['tag-to-image']
     .filter({
       'tag.id': id
@@ -39,6 +41,8 @@ export default async function Page({
       pagination: { size: IMAGES_PER_PAGE_COUNT, offset: IMAGES_PER_PAGE_COUNT * pageNumber - IMAGES_PER_PAGE_COUNT }
     });
 
+  // We use Xata's transform helper to create a thumbnail for each image
+  // and apply it to the image object
   const imageRecords = compact(
     recordsWithTag.records.map((record) => {
       if (!record.image?.image) {
@@ -59,6 +63,11 @@ export default async function Page({
         attributes: { width: IMAGE_SIZE, height: IMAGE_SIZE }
       };
 
+      // Next JS requires that we return a serialized object
+      // Xata provides a toSerializable method for this purpose
+      //
+      // In the client side code where this is called we map
+      // it back to the ImageRecord type
       return { ...record.image.toSerializable(), thumb };
     })
   );
@@ -67,12 +76,14 @@ export default async function Page({
 
   const tag = await xata.db.tag.read(id);
   const tagWithCount = {
+    // Same as above, we use toSerializable to get a plain object for Next.js
     ...tag?.toSerializable(),
     imageCount: tagImageCount
   } as TagWithImageCount;
 
   const totalNumberOfPages = Math.ceil(tagImageCount / IMAGES_PER_PAGE_COUNT);
 
+  // This page object is needed for building the buttons in the pagination component
   const page = {
     pageNumber,
     hasNextPage: recordsWithTag.hasNextPage(),

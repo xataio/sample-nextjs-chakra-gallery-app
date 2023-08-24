@@ -12,6 +12,9 @@ import { BaseLayout } from '../layout/base';
 import { Search } from '../search';
 import { ImageUpload } from './upload';
 
+// Because we serialized our data with .toSerializabe() server side,
+// we need to cast it back to the original type as JSON Data
+// Xata provides JSONData<T> for this purpose
 export type ImageRecordWithThumb = JSONData<ImageRecord> & {
   thumb: {
     url: string;
@@ -22,6 +25,7 @@ export type ImageRecordWithThumb = JSONData<ImageRecord> & {
   };
 };
 
+// A similar strategy is used for tags
 export type TagWithImageCount = JSONData<TagRecord> & {
   imageCount: number;
 };
@@ -43,6 +47,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
   const currentPage = page.pageNumber;
   const router = useRouter();
 
+  // We render the tags in a different way depending on how many there are
   const renderTags = (tags: TagWithImageCount[]) => {
     if (tags.length === 0) {
       return null;
@@ -99,6 +104,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
       {renderTags(tags)}
       {images.length === 0 && <Text>No images yet added</Text>}
       <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={2}>
+        {/* This uses the thumbnails we created server side based off our images */}
         {images.map(({ id, name, thumb }) => {
           return (
             <NextLink key={id} href={`/images/${id}`}>
@@ -112,6 +118,10 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
           );
         })}
       </SimpleGrid>
+      {/*
+        Server side we created a page object that contains information about the current page,
+        then find the current page from the router query.
+      */}
       {page.totalNumberOfPages > 1 && (
         <Flex justifyContent="center" mt={4}>
           <Flex gap={4} alignItems="center">

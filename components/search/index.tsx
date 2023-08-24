@@ -16,6 +16,10 @@ import { useRouter } from 'next/navigation';
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { SearchResult } from '~/components/search/result';
 
+// This component is used to search for images. The majority of this code is for the UI
+// and not related to Xata. The only Xata related code is the fetchRecords function which
+// is called when the user types in the search box. This function hits an API route
+// which uses Xata to search for images.
 export const Search: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [focused, setFocused] = useState();
@@ -29,6 +33,7 @@ export const Search: FC = () => {
     setSearchQuery(event.target.value);
   };
 
+  // This effect is used to scroll the focused result into view
   useEffect(() => {
     if (!focused || !resultsRef.current) return;
 
@@ -40,6 +45,7 @@ export const Search: FC = () => {
     resultElement.scrollIntoView({ block: 'center' });
   }, [focused]);
 
+  // This effect is used to fetch search results when the user types in the search box
   useEffect(() => {
     const fetchRecords = async () => {
       if (isNil(searchQuery) || searchQuery === '') {
@@ -47,6 +53,7 @@ export const Search: FC = () => {
         return;
       }
       setIsLoadingSearch(true);
+      // Check the API route to see how we use Xata to search for images
       const response = await fetch(`/api/images/search?query=${searchQuery}`);
       const results = await response.json();
       setFocused(results[0]);
@@ -60,6 +67,7 @@ export const Search: FC = () => {
 
   const debounceOnChange = debounce(handleSearchChange, 250);
 
+  // This effect is used to handle keyboard events while the search modal is open
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') {
@@ -99,6 +107,7 @@ export const Search: FC = () => {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [onClose, searchResults, router, focused, isOpen]);
 
+  // Clear the search results on close
   const handleClose = () => {
     setSearchQuery('');
     onClose();

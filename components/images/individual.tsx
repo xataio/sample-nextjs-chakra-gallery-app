@@ -1,7 +1,8 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Tag, Text, useToast } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Flex, FormControl, FormLabel, Heading, Tag, Text, useToast } from '@chakra-ui/react';
 import { JSONData, transformImage } from '@xata.io/client';
+import { motion } from 'framer-motion';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -11,6 +12,9 @@ import { BaseLayout } from '../layout/base';
 import { Search } from '../search';
 import { ImageUpload } from './upload';
 
+// Because we serialized our data with .toSerializabe() server side,
+// we need to cast it back to the original type as JSON Data
+// Xata provides JSONData<T> for this purpose
 interface ImageProps {
   image: JSONData<ImageRecord>;
   tags: JSONData<TagRecord>[];
@@ -34,13 +38,39 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
     }
   };
 
+  // Xata provides a helper to transform images on the client side. It works the same
+  // as the server side helper, but will perform after the page render so you might want
+  // to add a transition to account for the slight delay.
+  //
+  // A good usage of client side transformation might be to dynamically make
+  // images sizes based on viewport
+  //
   // @ts-ignore-next-line TODO: Alexis will fix types
   const clientSideThumbnailUrl = transformImage(image.image.url, [
-    { width: 300, height: 50, fit: 'cover', gravity: 'center', blur: 100 }
+    { width: 1000, height: 1000, fit: 'cover', gravity: 'center', blur: 100 }
   ]) as string;
+
+  // We use framer motion to animate the client side image on page load
+  type MotionBoxProps = Omit<BoxProps, 'transition'>;
+  const MotionBox = motion<MotionBoxProps>(Box);
 
   return (
     <BaseLayout>
+      <MotionBox
+        animate={{ opacity: [0, 0.3] }}
+        transition={{ duration: 2, ease: 'easeIn', delay: 0.5 }}
+        opacity={0}
+        pos="absolute"
+        top={0}
+        left={0}
+        w="full"
+        h="full"
+        bg="contrastLowest"
+        zIndex={-1}
+        background={`url(${clientSideThumbnailUrl})`}
+        backgroundSize="cover"
+        backgroundPosition="center"
+      />
       <Flex alignItems="center" justifyContent="space-between" mb={8} w="full">
         <ImageUpload />
         <Search />
@@ -53,6 +83,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
       </Flex>
       <Flex alignItems="start" flexGrow={1} gap={8} flexDir={{ base: 'column', lg: 'row' }}>
         <Flex alignItems="center" justifyContent="center" flexDir="column" grow={1} w="full">
+          {/* This is the original image */}
           <NextImage
             // @ts-ignore-next-line TODO: Alexis will fix types
             src={image.image.url}
@@ -74,10 +105,6 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
           borderRadius="md"
           w="full"
         >
-          <FormControl>
-            <FormLabel>Client side thumbnail transform</FormLabel>
-            <NextImage src={clientSideThumbnailUrl} alt={image.name || ''} width={300} height={50} />
-          </FormControl>
           <FormControl>
             <FormLabel>Image name</FormLabel>
             <Text fontSize="sm">{image.name}</Text>
