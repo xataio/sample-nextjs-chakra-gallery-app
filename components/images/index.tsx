@@ -1,6 +1,6 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
-import { Flex, Heading, Select, SimpleGrid, Tag } from '@chakra-ui/react';
+import { Flex, Heading, Select, SimpleGrid, Tag, Text } from '@chakra-ui/react';
 import { JSONData } from '@xata.io/client';
 import { range } from 'lodash';
 import Image from 'next/image';
@@ -43,13 +43,13 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
   const currentPage = page.pageNumber;
   const router = useRouter();
 
-  return (
-    <BaseLayout>
-      <Flex alignItems="center" justifyContent="space-between" mb={8}>
-        <ImageUpload />
-        <Search />
-      </Flex>
-      {tags.length > 1 ? (
+  const renderTags = (tags: TagWithImageCount[]) => {
+    if (tags.length === 0) {
+      return null;
+    }
+
+    if (tags.length > 1) {
+      return (
         <>
           <Heading as="h1" size="md" mb={8}>
             All images
@@ -75,16 +75,29 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
             </Flex>
           )}
         </>
-      ) : (
-        <>
-          <Heading as="h1" size="md" mb={8}>
-            {tags[0].imageCount} images tagged with <Tag>{tags[0].name}</Tag>
-          </Heading>
-          <Flex mb={8} gap={2} wrap="wrap">
-            <Link href="/">&laquo; Back to all images</Link>
-          </Flex>
-        </>
-      )}
+      );
+    }
+
+    return (
+      <>
+        <Heading as="h1" size="md" mb={8}>
+          {tags[0].imageCount} images tagged with <Tag>{tags[0].name}</Tag>
+        </Heading>
+        <Flex mb={8} gap={2} wrap="wrap">
+          <Link href="/">&laquo; Back to all images</Link>
+        </Flex>
+      </>
+    );
+  };
+
+  return (
+    <BaseLayout>
+      <Flex alignItems="center" justifyContent="space-between" mb={8}>
+        <ImageUpload />
+        <Search />
+      </Flex>
+      {renderTags(tags)}
+      {images.length === 0 && <Text>No images yet added</Text>}
       <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={2}>
         {images.map(({ id, name, thumb }) => {
           return (

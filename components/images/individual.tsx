@@ -1,7 +1,7 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Tag, Text, useToast } from '@chakra-ui/react';
-import { JSONData } from '@xata.io/client';
+import { JSONData, transformImage } from '@xata.io/client';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -33,6 +33,11 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
       });
     }
   };
+
+  // @ts-ignore-next-line TODO: Alexis will fix types
+  const clientSideThumbnailUrl = transformImage(image.image.url, [
+    { width: 300, height: 300, fit: 'cover', gravity: 'top', blur: 100 }
+  ]) as string;
 
   return (
     <BaseLayout>
@@ -69,6 +74,10 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
           borderRadius="md"
           w="full"
         >
+          <FormControl>
+            <FormLabel>Client side thumbnail transform</FormLabel>
+            <NextImage src={clientSideThumbnailUrl} alt={image.name || ''} width={300} height={300} />
+          </FormControl>
           <FormControl>
             <FormLabel>Image name</FormLabel>
             <Text fontSize="sm">{image.name}</Text>
