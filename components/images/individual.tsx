@@ -36,7 +36,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
 
   // @ts-ignore-next-line TODO: Alexis will fix types
   const clientSideThumbnailUrl = transformImage(image.image.url, [
-    { width: 300, height: 300, fit: 'cover', gravity: 'top', blur: 100 }
+    { width: 300, height: 50, fit: 'cover', gravity: 'center', blur: 100 }
   ]) as string;
 
   return (
@@ -76,7 +76,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
         >
           <FormControl>
             <FormLabel>Client side thumbnail transform</FormLabel>
-            <NextImage src={clientSideThumbnailUrl} alt={image.name || ''} width={300} height={300} />
+            <NextImage src={clientSideThumbnailUrl} alt={image.name || ''} width={300} height={50} />
           </FormControl>
           <FormControl>
             <FormLabel>Image name</FormLabel>
