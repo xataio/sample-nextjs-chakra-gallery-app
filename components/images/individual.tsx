@@ -38,17 +38,21 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
     }
   };
 
+  if (!image.image) return null;
+
   // Xata provides a helper to transform images on the client side. It works the same
   // as the server side helper, but will perform after the page render so you might want
   // to add a transition to account for the slight delay.
   //
   // A good usage of client side transformation might be to dynamically make
   // images sizes based on viewport
-  //
-  // @ts-ignore-next-line TODO: Alexis will fix types
-  const clientSideThumbnailUrl = transformImage(image.image.url, [
-    { width: 1000, height: 1000, fit: 'cover', gravity: 'center', blur: 100 }
-  ]) as string;
+  const clientSideThumbnailUrl = transformImage(image.image.url, {
+    width: 1000,
+    height: 1000,
+    fit: 'cover',
+    gravity: 'center',
+    blur: 100
+  });
 
   // We use framer motion to animate the client side image on page load
   type MotionBoxProps = Omit<BoxProps, 'transition'>;
@@ -85,14 +89,10 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
         <Flex alignItems="center" justifyContent="center" flexDir="column" grow={1} w="full">
           {/* This is the original image */}
           <NextImage
-            // @ts-ignore-next-line TODO: Alexis will fix types
             src={image.image.url}
-            // @ts-ignore-next-line
             width={image.image.attributes.width}
-            // @ts-ignore-next-line
             height={image.image.attributes.height}
-            // @ts-ignore-next-line
-            alt={image.name}
+            alt={image.name ?? ''}
             style={{ maxWidth: '80%' }}
           />
         </Flex>
@@ -111,20 +111,16 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
           </FormControl>
           <FormControl>
             <FormLabel>Original image URL</FormLabel>
-            {/* @ts-ignore-next-line TODO: Alexis will fix types */}
             <Link href={image.image.url} fontSize="xs">
-              {/* @ts-ignore-next-line TODO: Alexis will fix types */}
               {image.image.url}
             </Link>
           </FormControl>
           <FormControl>
             <FormLabel>Original width</FormLabel>
-            {/* @ts-ignore-next-line TODO: Alexis will fix types */}
             <Text fontSize="sm">{image.image.attributes.width}</Text>
           </FormControl>
           <FormControl>
             <FormLabel>Original height</FormLabel>
-            {/* @ts-ignore-next-line TODO: Alexis will fix types */}
             <Text fontSize="sm">{image.image.attributes.height}</Text>
           </FormControl>
           {tags.length > 0 && (
