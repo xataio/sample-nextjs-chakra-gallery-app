@@ -27,11 +27,14 @@ dependencies:
     specifier: ^2.0.208
     version: 2.0.208(react@18.2.0)
   '@xata.io/client':
-    specifier: ^0.25.1
-    version: 0.25.1(typescript@5.1.6)
+    specifier: ^0.25.2
+    version: 0.25.2(typescript@5.1.6)
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   next:
     specifier: 13.4.12
     version: 13.4.12(react-dom@18.2.0)(react@18.2.0)
@@ -44,9 +47,15 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  slugify:
+    specifier: ^1.6.6
+    version: 1.6.6
   typescript:
     specifier: 5.1.6
     version: 5.1.6
+  uuid:
+    specifier: ^9.0.0
+    version: 9.0.0
 
 devDependencies:
   '@chakra-ui/cli':
@@ -58,6 +67,9 @@ devDependencies:
   '@types/chroma-js':
     specifier: ^2.4.0
     version: 2.4.0
+  '@types/lodash':
+    specifier: ^4.14.196
+    version: 4.14.196
   '@types/node':
     specifier: 20.4.5
     version: 20.4.5
@@ -67,6 +79,9 @@ devDependencies:
   '@types/react-dom':
     specifier: 18.2.7
     version: 18.2.7
+  '@types/uuid':
+    specifier: ^9.0.2
+    version: 9.0.2
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.2.0
     version: 6.2.0(@typescript-eslint/parser@6.2.0)(eslint@8.45.0)(typescript@5.1.6)
@@ -2022,7 +2037,6 @@ packages:
   /@types/lodash@4.14.196:
     resolution:
       { integrity: sha512-22y3o88f4a94mKljsZcanlNWPzO0uBsBdzLAngf2tp533LzZcQzb6+eZPJ+vCTt+bqF2XnvT9gejTLsAcJAJyQ== }
-    dev: false
 
   /@types/node@20.4.5:
     resolution:
@@ -2060,6 +2074,11 @@ packages:
   /@types/semver@7.5.0:
     resolution:
       { integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw== }
+    dev: true
+
+  /@types/uuid@9.0.2:
+    resolution:
+      { integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ== }
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.2.0(@typescript-eslint/parser@6.2.0)(eslint@8.45.0)(typescript@5.1.6):
@@ -2269,9 +2288,9 @@ packages:
       eslint-visitor-keys: 3.4.2
     dev: true
 
-  /@xata.io/client@0.25.1(typescript@5.1.6):
+  /@xata.io/client@0.25.2(typescript@5.1.6):
     resolution:
-      { integrity: sha512-BPB+JX1URNvvSsL5crhWnWC3X0PlilQ14MJTwX3jShGXRyqgkb5/tRgntkHMI6IS8UgLHsPnCS02uf8JkuBHJQ== }
+      { integrity: sha512-W3eBfTM2PZzrH5+YLW6niasrgE31oHkVPqf5JW/hosq6M/2F2K4EUiwFoRKRnpsRUo9GP1VmqGvVX2eJAl73SA== }
     peerDependencies:
       typescript: '>=4.5'
     dependencies:
@@ -4286,6 +4305,11 @@ packages:
     resolution:
       { integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ== }
 
+  /lodash@4.17.21:
+    resolution:
+      { integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg== }
+    dev: false
+
   /log-symbols@3.0.0:
     resolution:
       { integrity: sha512-dSkNGuI7iG3mfvDzUuYZyvk5dD9ocYCYzNU6CYDE6+Xqd+gwme6Z00NS3dUh8mq/73HaEtT7m6W+yUPtU6BZnQ== }
@@ -5083,6 +5107,12 @@ packages:
       is-fullwidth-code-point: 4.0.0
     dev: true
 
+  /slugify@1.6.6:
+    resolution:
+      { integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw== }
+    engines: { node: '>=8.0.0' }
+    dev: false
+
   /source-map-js@1.0.2:
     resolution:
       { integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw== }
@@ -5479,6 +5509,12 @@ packages:
       detect-node-es: 1.1.0
       react: 18.2.0
       tslib: 2.6.1
+    dev: false
+
+  /uuid@9.0.0:
+    resolution:
+      { integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg== }
+    hasBin: true
     dev: false
 
   /watchpack@2.4.0:

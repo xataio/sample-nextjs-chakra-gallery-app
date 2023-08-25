@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://sample-databases-v0sn1n.us-east-1.xata.sh/db/gallery-example",
+  "codegen": {
+    "output": "utils/xata.ts"
+  }
+}
