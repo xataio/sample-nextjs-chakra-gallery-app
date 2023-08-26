@@ -1,30 +1,38 @@
-This is an example application that demos a variety of [Xata](https://xata.io) features through building a gallery application. It provides examples for
+## Sample gallery app powered by Xata
 
-- Pagination
+A small example Xata application built with Next.js & Chakra UI.
+
+![image](https://github.com/xataio/sample-nextjs-chakra-gallery-app/assets/324519/81590a54-89ed-4003-8e3c-1e38c7831392)
+
+This app showcases serveral [Xata](https://xata.io) features including:
+
+- Offset based pagination
 - Form management and submission
 - Search
 - Aggregations
 - Summaries
 - Image transformations
-- Junction tails using Xata link types
+- Queries using junction tables and links
+- Proper Next.js + Xata TypeScript patterns
 
-## Running locally
+## To run this example locally with your own database
 
-Add the following to an `.env` file
+You'll need to [install Xata](https://xata.io/docs/getting-started/installation) before performing these steps.
+
+- `git clone git@github.com:xataio/sample-nextjs-chakra-gallery-app.git`
+- `cd sample-nextjs-chakra-gallery-app`
+- Remove the Xata files that point to our database
+  - `rm -rf .xata utils/xata.ts .xatarc`
+- `pnpm install`
+- Run `xata init --schema schema.json ` to create a new database with the necessary schema
+- `pnpm run dev` to load the site at http://localhost:3000
+- Add images either through the application, or through your database UI at https://app.xata.io
+
+## Environment variables
+
+After you run init, your `.env` file should look like this
 
 ```bash
 XATA_BRANCH=main
 XATA_API_KEY=xau_yourapikey
-```
-
-Install dependencies
-
-```bash
-pnpm install
-```
-
-Then start the runserver
-
-```bash
-pnpm dev
 ```
