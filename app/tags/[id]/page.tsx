@@ -35,8 +35,7 @@ export default async function Page({
     .filter({
       'tag.id': id
     })
-    // @ts-ignore-next-line TODO: Alexis to fix SDK types
-    .select(['*', 'image.image.url', 'image.image.attributes', 'image.image.name'])
+    .select(['*', 'image.image'])
     .getPaginated({
       pagination: { size: IMAGES_PER_PAGE_COUNT, offset: IMAGES_PER_PAGE_COUNT * pageNumber - IMAGES_PER_PAGE_COUNT }
     });
