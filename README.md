@@ -6,7 +6,8 @@ A live demo of this application is available at [https://xata-gallery.vercel.app
 
 A small example Xata application built with Next.js & Chakra UI.
 
-![image](https://github.com/xataio/sample-nextjs-chakra-gallery-app/assets/324519/81590a54-89ed-4003-8e3c-1e38c7831392)
+![image](https://github.com/xataio/sample-nextjs-chakra-gallery-app/assets/324519/47727874-318f-4451-a670-f456e85a09df)
+
 
 This app showcases serveral [Xata](https://xata.io) features including:
 
