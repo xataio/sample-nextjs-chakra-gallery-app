@@ -85,16 +85,17 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
       <Flex mb={8} gap={2} wrap="wrap">
         <Link href="/">&laquo; Back to all images</Link>
       </Flex>
-      <Flex alignItems="start" flexGrow={1} gap={8} flexDir={{ base: 'column', lg: 'row' }}>
+      <Flex alignItems="start" flexGrow={1} gap={12} flexDir={{ base: 'column', lg: 'row' }}>
         <Flex alignItems="center" justifyContent="center" flexDir="column" grow={1} w="full">
           {/* This is the original image */}
-          <NextImage
-            src={image.image.url}
-            width={image.image.attributes.width}
-            height={image.image.attributes.height}
-            alt={image.name ?? ''}
-            style={{ maxWidth: '80%' }}
-          />
+          <Box boxShadow="lg" maxW="full" borderRadius="md" overflow="hidden">
+            <NextImage
+              src={image.image.url}
+              width={image.image.attributes.width}
+              height={image.image.attributes.height}
+              alt={image.name ?? ''}
+            />
+          </Box>
         </Flex>
         <Flex
           flexDir="column"
@@ -104,6 +105,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
           p={8}
           borderRadius="md"
           w="full"
+          boxShadow="lg"
         >
           <FormControl>
             <FormLabel>Image name</FormLabel>

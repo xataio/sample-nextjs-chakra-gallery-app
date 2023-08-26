@@ -326,7 +326,8 @@ const textColorsObj: any = {
   },
   textPlaceholder: { _light: 'gray.500', _dark: 'gray.500' },
   title: { _light: `gray.900`, _dark: `white` },
-  textInvert: { _light: 'white', _dark: 'gray.700' },
+  titleInvert: { _light: `white`, _dark: `gray.900` },
+  textInvert: { _light: 'gray.50', _dark: 'gray.800' },
   textPrimary: {
     _light: quickReadableText(chroma(colors.primary[500]), `light`),
     _dark: quickReadableText(chroma(colors.primary[300]), `dark`)
@@ -358,7 +359,12 @@ export const textColors = generateColorArrayFromObject(textColorsObj);
 const bgColorsObj: any = {
   bg: { _light: '#FDFDFF', _dark: 'gray.900' },
   bgAlternate: { _light: soft_orchid, _dark: chroma(colors.gray[900]).brighten(0.2).hex() },
+  bgAlternateMedium: {
+    _light: '#e4dffa',
+    _dark: chroma(colors.gray[900]).brighten(0.5).hex()
+  },
   bgPrimary: { _light: 'purple.500', _dark: 'purple.200' },
+  bgHighlight: { _light: 'purple.500', _dark: 'purple.500' },
   bgDanger: {
     _light: 'red.50',
     _dark: 'red.700'
@@ -366,14 +372,23 @@ const bgColorsObj: any = {
   bgWarning: { _light: 'orange.50', _dark: 'orange.700' },
   bgSuccess: { _light: 'green.50', _dark: 'green.700' },
   bgInfo: { _light: 'blue.50', _dark: 'blue.700' },
-  bgInvert: { _light: 'gray.800', _dark: 'white' },
-  bgHighlight: {
-    _light: contrastScale.lowest.light,
-    _dark: contrastScale.lowest.dark
-  }
+  bgInvert: { _light: 'gray.800', _dark: 'white' }
 };
 
 export const bgColors = generateColorArrayFromObject(bgColorsObj);
+
+const shadowColorsObj: any = {
+  shadowOuterBorder: {
+    _light: 'blackAlpha.100',
+    _dark: 'whiteAlpha.50'
+  },
+  shadowInnerBorder: {
+    _light: contrastScale.low.light,
+    _dark: contrastScale.low.dark
+  }
+};
+
+export const shadowColors = generateColorArrayFromObject(shadowColorsObj);
 
 export const semanticTokens = {
   colors: {
@@ -383,9 +398,9 @@ export const semanticTokens = {
     ...contrastColorsObj,
     ...textColorsObj,
     ...bgColorsObj,
+    ...shadowColorsObj,
     stroke: {
       _light: contrastScale.low.light,
-      // _dark: chroma(contrastScale.lowest.dark).brighten(0.3).hex()
       _dark: contrastScale.low.dark
     },
     dialogBg: { _light: contrastScale.lowest.light, _dark: contrastScale.lowest.dark },
@@ -442,7 +457,7 @@ export const borderRadius = {
 
 export const shadows = {
   ...defaultTheme.shadows,
-  outline: `0 0 0 8px rgba(255, 255, 255, 0.02),0 0 1px var(--chakra-colors-gray-500)`,
+  outline: `0 0 0 8px var(--chakra-colors-shadowOuterBorder),0 0 1px var(--chakra-colors-shadowInnerBorder)`,
   under: `rgba(0, 0, 0, 0.25) 0px 24px 20px -20px`,
   shine: `0px 4px 100px 50px rgba(201, 163, 251, 0.3)`
 };

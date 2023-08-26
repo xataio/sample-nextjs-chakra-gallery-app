@@ -1,6 +1,6 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
-import { Flex, Heading, Select, SimpleGrid, Tag, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Select, SimpleGrid, Tag, Text } from '@chakra-ui/react';
 import { JSONData } from '@xata.io/client';
 import { range } from 'lodash';
 import Image from 'next/image';
@@ -103,18 +103,20 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
       </Flex>
       {renderTags(tags)}
       {images.length === 0 && <Text>No images yet added</Text>}
-      <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={2}>
+      <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={4}>
         {/* This uses the thumbnails we created server side based off our images */}
         {images.map(({ id, name, thumb }) => {
           return (
-            <NextLink key={id} href={`/images/${id}`}>
-              <Image
-                src={thumb.url}
-                width={thumb.attributes.width}
-                height={thumb.attributes.height}
-                alt={name ?? 'unknown image'}
-              />
-            </NextLink>
+            <Box borderRadius="md" overflow="hidden" key={id}>
+              <NextLink href={`/images/${id}`}>
+                <Image
+                  src={thumb.url}
+                  width={thumb.attributes.width}
+                  height={thumb.attributes.height}
+                  alt={name ?? 'unknown image'}
+                />
+              </NextLink>
+            </Box>
           );
         })}
       </SimpleGrid>
@@ -123,7 +125,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
         then find the current page from the router query.
       */}
       {page.totalNumberOfPages > 1 && (
-        <Flex justifyContent="center" mt={4}>
+        <Flex justifyContent="center" mt={8}>
           <Flex gap={4} alignItems="center">
             {page.hasPreviousPage && <Link href={`?page=${currentPage - 1}`}>Previous</Link>}
             <Select onChange={(event) => router.push(`?page=${event.target.value}`)} value={currentPage}>
