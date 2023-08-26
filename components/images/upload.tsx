@@ -49,6 +49,7 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
     formData.append('tags', tags);
 
     try {
+      // This route creates new image and tag records in Xata
       const response = await fetch('/api/images', {
         method: 'POST',
         body: formData
@@ -121,7 +122,7 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
                 </FormControl>
                 <FormControl id="file" isRequired>
                   <FormLabel>Image</FormLabel>
-                  <Input type="file" name="file" onChange={handleFileChange} />
+                  <Input type="file" name="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
                 </FormControl>
               </Flex>
               {message && <div>{message}</div>}
