@@ -19,7 +19,18 @@ export async function DELETE(request: Request, { params }: { params: { imageId: 
       }
     );
   }
+  // People on the internet can be mean, so let's make sure we don't allow
+  // anyone to create images in the live demo
+  if (process.env.READ_ONLY === 'true') {
+    return NextResponse.json(
+      { message: 'Read only mode enabled' },
+      {
+        status: 403
+      }
+    );
+  }
 
+  // FInd all the tag links to this image
   const linksFromImage = await xata.db['tag-to-image']
     .filter({
       'image.id': imageId

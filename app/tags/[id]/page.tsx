@@ -90,5 +90,7 @@ export default async function Page({
     totalNumberOfPages: totalNumberOfPages
   };
 
-  return <Images images={imageRecords} tags={[tagWithCount]} page={page} />;
+  const readOnly = process.env.READ_ONLY === 'true';
+
+  return <Images images={imageRecords} tags={[tagWithCount]} page={page} readOnly={readOnly} />;
 }

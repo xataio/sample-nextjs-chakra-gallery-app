@@ -11,6 +11,17 @@ export const runtime = 'edge';
 export const preferredRegion = 'iad1';
 
 export async function POST(request: Request) {
+  // People on the internet can be mean, so let's make sure we don't allow
+  // anyone to create images in the live demo
+  if (process.env.READ_ONLY === 'true') {
+    return NextResponse.json(
+      { message: 'Read only mode enabled' },
+      {
+        status: 403
+      }
+    );
+  }
+
   // Get the form data
   const formData = await request.formData();
   const file = formData.get('file') as File;

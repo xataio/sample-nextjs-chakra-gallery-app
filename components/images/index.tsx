@@ -41,9 +41,10 @@ type ImagesProps = {
   images: ImageRecordWithThumb[];
   tags: TagWithImageCount[];
   page: Page;
+  readOnly: boolean;
 };
 
-export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
+export const Images: FC<ImagesProps> = ({ images, tags, page, readOnly }) => {
   const currentPage = page.pageNumber;
   const router = useRouter();
 
@@ -97,8 +98,8 @@ export const Images: FC<ImagesProps> = ({ images, tags, page }) => {
 
   return (
     <BaseLayout>
-      <Flex alignItems="center" justifyContent="space-between" mb={8}>
-        <ImageUpload />
+      <Flex alignItems="start" justifyContent="space-between" mb={8}>
+        <ImageUpload readOnly={readOnly} />
         <Search />
       </Flex>
       {renderTags(tags)}

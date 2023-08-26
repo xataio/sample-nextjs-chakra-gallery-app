@@ -90,5 +90,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
     };
   }) as TagWithImageCount[];
 
-  return <Images images={images} tags={tags} page={page} />;
+  const readOnly = process.env.READ_ONLY === 'true';
+
+  return <Images images={images} tags={tags} page={page} readOnly={readOnly} />;
 }

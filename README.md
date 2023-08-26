@@ -1,3 +1,7 @@
+## Live demo
+
+A live demo of this application is available at [https://xata-gallery.vercel.app](https://xata-gallery.vercel.app). The demo turns off the ability to upload and delete images. For local or forked versions, set the `.env` setting `READ_ONLY=false`.
+
 ## Sample gallery app powered by Xata
 
 A small example Xata application built with Next.js & Chakra UI.
@@ -33,6 +37,10 @@ You'll need to [install Xata](https://xata.io/docs/getting-started/installation)
 After you run init, your `.env` file should look like this
 
 ```bash
+# Xata credentials
 XATA_BRANCH=main
-XATA_API_KEY=xau_yourapikey
+XATA_API_KEY=
+
+# Setting to true will disable API / UI to write to the database
+READ_ONLY=false
 ```

@@ -1,10 +1,12 @@
 'use client';
 import {
+  Box,
   Button,
   Flex,
   FormControl,
   FormLabel,
   Input,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -12,13 +14,19 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
   useToast
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
+import { GitHubIcon } from '../icons/github';
 
-export const ImageUpload = () => {
+interface ImageUploadProps {
+  readOnly: boolean;
+}
+
+export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState('');
   const [file, setFile] = useState(null);
@@ -68,6 +76,26 @@ export const ImageUpload = () => {
   const handleFileChange = (e: any) => {
     setFile(e.target.files[0]);
   };
+
+  if (readOnly) {
+    return (
+      <Box>
+        <Button
+          as="a"
+          href="https://github.com/xataio/sample-nextjs-chakra-gallery-app"
+          colorScheme="primary"
+          leftIcon={<GitHubIcon boxSize={5} />}
+        >
+          Source on GitHub
+        </Button>
+        <Text mt={4} fontSize="xs" color="textSubtle">
+          This demo set to read only mode.{' '}
+          <Link href="https://github.com/xataio/sample-nextjs-chakra-gallery-app/">Run it locally</Link> to explore the
+          full functionality.
+        </Text>
+      </Box>
+    );
+  }
 
   return (
     <>

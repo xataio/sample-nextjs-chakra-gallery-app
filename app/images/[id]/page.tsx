@@ -28,5 +28,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
 
   const tags = compact(tagsFromImage.map((tag) => tag.tag?.toSerializable())) as JSONData<TagRecord>[];
 
-  return <Image image={image} tags={tags} />;
+  const readOnly = process.env.READ_ONLY === 'true';
+
+  return <Image image={image} tags={tags} readOnly={readOnly} />;
 }

@@ -18,9 +18,10 @@ import { ImageUpload } from './upload';
 interface ImageProps {
   image: JSONData<ImageRecord>;
   tags: JSONData<TagRecord>[];
+  readOnly: boolean;
 }
 
-export const Image: FC<ImageProps> = ({ image, tags }) => {
+export const Image: FC<ImageProps> = ({ image, tags, readOnly }) => {
   const router = useRouter();
   const toast = useToast();
   const handleDelete = async () => {
@@ -76,7 +77,7 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
         backgroundPosition="center"
       />
       <Flex alignItems="center" justifyContent="space-between" mb={8} w="full">
-        <ImageUpload />
+        <ImageUpload readOnly={readOnly} />
         <Search />
       </Flex>
       <Heading as="h1" size="md" mb={8}>
@@ -137,11 +138,13 @@ export const Image: FC<ImageProps> = ({ image, tags }) => {
               </Flex>
             </FormControl>
           )}
-          <Box>
-            <Button colorScheme="red" size="sm" onClick={handleDelete}>
-              Delete
-            </Button>
-          </Box>
+          {!readOnly && (
+            <Box>
+              <Button colorScheme="red" size="sm" onClick={handleDelete}>
+                Delete
+              </Button>
+            </Box>
+          )}
         </Flex>
       </Flex>
     </BaseLayout>
