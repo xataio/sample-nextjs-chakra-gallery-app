@@ -27,8 +27,8 @@ dependencies:
     specifier: ^2.0.208
     version: 2.0.208(react@18.2.0)
   '@xata.io/client':
-    specifier: 0.0.0-alpha.vf54e954
-    version: 0.0.0-alpha.vf54e954(typescript@5.1.6)
+    specifier: ^0.26.1
+    version: 0.26.1(typescript@5.1.6)
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
@@ -2288,9 +2288,9 @@ packages:
       eslint-visitor-keys: 3.4.2
     dev: true
 
-  /@xata.io/client@0.0.0-alpha.vf54e954(typescript@5.1.6):
+  /@xata.io/client@0.26.1(typescript@5.1.6):
     resolution:
-      { integrity: sha512-X50VsFjGLaDOwCDYHZSP16kLQnyzUmLG2Hm1Zm1LKnLcuEJ0XxwvaI3LaBfZGLH3D+2oWWg6MYOQgt5vzhv25A== }
+      { integrity: sha512-uPu+WzPhPGfT2X0jEcJOC9FgpJJJPF4Jb0JunelfQwnKESUFNLG3MB/2GSmZcpLhT/zbJU0KBl54yLbskH6EwQ== }
     peerDependencies:
       typescript: '>=4.5'
     dependencies:
@@ -2664,7 +2664,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /chroma-js@2.4.2:
@@ -3655,9 +3655,9 @@ packages:
       { integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw== }
     dev: true
 
-  /fsevents@2.3.2:
+  /fsevents@2.3.3:
     resolution:
-      { integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA== }
+      { integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw== }
     engines: { node: ^8.16.0 || ^10.6.0 || >=11.0.0 }
     os: [darwin]
     requiresBuild: true
