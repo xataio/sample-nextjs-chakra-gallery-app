@@ -79,8 +79,8 @@ export default async function Page({ searchParams }: { searchParams: { page: str
         const thumb = {
           url,
           attributes: {
-            width: metadata.width, // Post transform width
-            height: metadata.height // Post transform height
+            width: metadata?.width, // Post transform width
+            height: metadata?.height // Post transform height
           }
         };
 
