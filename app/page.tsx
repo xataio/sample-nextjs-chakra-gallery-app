@@ -72,15 +72,15 @@ export default async function Page({ searchParams }: { searchParams: { page: str
         // and transformed dimensions of the image.
         const metadata = await fetchMetadata(metadataUrl);
 
-        if (!url) {
+        if (!url || !metadata) {
           return undefined;
         }
 
         const thumb = {
           url,
           attributes: {
-            width: metadata?.width, // Post transform width
-            height: metadata?.height // Post transform height
+            width: metadata.width, // Post transform width
+            height: metadata.height // Post transform height
           }
         };
 
