@@ -8,7 +8,6 @@ A small example Xata application built with Next.js & Chakra UI.
 
 ![image](https://github.com/xataio/sample-nextjs-chakra-gallery-app/assets/324519/47727874-318f-4451-a670-f456e85a09df)
 
-
 This app showcases serveral [Xata](https://xata.io) features including:
 
 - Offset based pagination
