@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
-    "@chakra-ui/react": "^2.8.0",
-    "@chakra-ui/theme": "^3.2.0",
-    "@chakra-ui/theme-tools": "^2.1.0",
+    "@chakra-ui/react": "^2.8.1",
+    "@chakra-ui/theme": "^3.3.0",
+    "@chakra-ui/theme-tools": "^2.1.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@fluentui/react-icons": "^2.0.208",
-    "@xata.io/client": "^0.26.1",
+    "@fluentui/react-icons": "^2.0.218",
+    "@xata.io/client": "^0.26.7",
     "chroma-js": "^2.4.2",
     "lodash": "^4.17.21",
     "next": "13.4.12",
@@ -28,7 +28,7 @@
     "react-dom": "18.2.0",
     "slugify": "^1.6.6",
     "typescript": "5.1.6",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
@@ -46,25 +46,25 @@
   "devDependencies": {
     "@chakra-ui/cli": "^2.4.1",
     "@chakra-ui/styled-system": "^2.9.1",
-    "@types/chroma-js": "^2.4.0",
-    "@types/lodash": "^4.14.196",
+    "@types/chroma-js": "^2.4.1",
+    "@types/lodash": "^4.14.199",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",
-    "@types/uuid": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "@typescript-eslint/parser": "^6.2.0",
+    "@types/uuid": "^9.0.4",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-check-file": "^2.5.0",
-    "eslint-plugin-import": "^2.28.0",
+    "eslint-config-prettier": "=8.8.0",
+    "eslint-plugin-check-file": "^2.6.2",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "=4.2.1",
-    "eslint-plugin-react": "^7.33.0",
-    "framer-motion": "^10.15.0",
+    "eslint-plugin-react": "^7.33.2",
+    "framer-motion": "^10.16.4",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
-    "prettier-plugin-organize-imports": "^3.2.2"
+    "lint-staged": "^13.3.0",
+    "prettier-plugin-organize-imports": "^3.2.3"
   }
 }
