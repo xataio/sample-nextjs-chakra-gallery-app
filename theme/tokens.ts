@@ -1,4 +1,4 @@
-import defaultTheme from '@chakra-ui/theme';
+import { baseTheme } from '@chakra-ui/theme';
 import chroma from 'chroma-js';
 export type SemanticTokenColor = keyof (typeof semanticTokens)['colors'];
 
@@ -456,7 +456,7 @@ export const borderRadius = {
 };
 
 export const shadows = {
-  ...defaultTheme.shadows,
+  ...baseTheme.shadows,
   outline: `0 0 0 8px var(--chakra-colors-shadowOuterBorder),0 0 1px var(--chakra-colors-shadowInnerBorder)`,
   under: `rgba(0, 0, 0, 0.25) 0px 24px 20px -20px`,
   shine: `0px 4px 100px 50px rgba(201, 163, 251, 0.3)`
