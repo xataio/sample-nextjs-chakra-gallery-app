@@ -8,34 +8,28 @@ const xata = getXataClient();
 
 // Using Xata's aggregate helper, we can get the total number of images
 const getImageCount = async () => {
-  const totalNumberOfImages = await xata.db.image.aggregate({
-    totalCount: { count: '*' }
+  const totalNumberOfImages = await xata.db.image.summarize({
+    columns: [],
+    summaries: {
+      count: { count: '*' }
+    }
   });
-  return totalNumberOfImages.aggs.totalCount;
+  return totalNumberOfImages.summaries[0].count;
 };
 
 export default async function Page({ searchParams }: { searchParams: { page: string } }) {
   const pageNumber = parseInt(searchParams.page) || 1;
 
   // We use Xata's getPaginated helper to get a paginated list of images, sorted by date
-  const imagesPage = await xata.db.image.sort('xata.createdAt', 'desc').getPaginated({
+  const imagesPagePromise = xata.db.image.sort('xata.createdAt', 'desc').getPaginated({
     pagination: { size: IMAGES_PER_PAGE_COUNT, offset: IMAGES_PER_PAGE_COUNT * pageNumber - IMAGES_PER_PAGE_COUNT }
   });
 
-  const imageCount = await getImageCount();
-  const totalNumberOfPages = Math.ceil(imageCount / IMAGES_PER_PAGE_COUNT);
-
-  // This page object is needed for building the buttons in the pagination component
-  const page = {
-    pageNumber,
-    hasNextPage: imagesPage.hasNextPage(),
-    hasPreviousPage: pageNumber > 1,
-    totalNumberOfPages
-  };
+  const imageCountPromise = getImageCount();
 
   // We use Xata's summarize helper to get the top 10 tags,
   // and create a property for each tag called imageCount
-  const topTags = await xata.db['tag-to-image'].summarize({
+  const topTagsPromise = xata.db['tag-to-image'].summarize({
     columns: ['tag'],
     summaries: {
       imageCount: { count: '*' }
@@ -50,8 +44,23 @@ export default async function Page({ searchParams }: { searchParams: { page: str
     }
   });
 
+  console.time('Fetching images');
+  const [imagesPage, imageCount, topTags] = await Promise.all([imagesPagePromise, imageCountPromise, topTagsPromise]);
+  console.timeEnd('Fetching images');
+
+  const totalNumberOfPages = Math.ceil(imageCount / IMAGES_PER_PAGE_COUNT);
+
+  // This page object is needed for building the buttons in the pagination component
+  const page = {
+    pageNumber,
+    hasNextPage: imagesPage.hasNextPage(),
+    hasPreviousPage: pageNumber > 1,
+    totalNumberOfPages
+  };
+
   // We use Xata's transform helper to create a thumbnail for each image
   // and apply it to the image object
+  console.time('Fetching images transforms');
   const images = compact(
     await Promise.all(
       imagesPage.records.map(async (record) => {
@@ -88,6 +97,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
       })
     )
   );
+  console.timeEnd('Fetching images transforms');
 
   // Find the top 10 tags using Xata's summarize helper
   const tags = topTags.summaries.map((tagSummary) => {
