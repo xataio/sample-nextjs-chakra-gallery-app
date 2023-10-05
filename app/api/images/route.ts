@@ -37,14 +37,19 @@ export async function POST(request: Request) {
 
   // Create the image record in Xata
   const record = await xata.db.image.create({
-    name: name as string,
-    image: {
-      name: fileName,
-      mediaType: mimeType,
-      // Xata expects a base64 encoded string for the file content
-      base64Content: fileData.toString('base64')
-    }
+    name: name as string
   });
+
+  // Upload the file and attach it to the image record
+  await xata.files.upload(
+    {
+      table: 'image',
+      column: 'image',
+      record: record.id
+    },
+    fileData
+  );
+  await xata.db.image.update(record.id, { image: { mediaType: mimeType, name: fileName } });
 
   // Once the image is created, create or update any related tags
   await xata.db.tag.createOrUpdate([
