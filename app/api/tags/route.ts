@@ -18,7 +18,35 @@ export async function GET(request: Request) {
   const tagId = searchParams.get('tagId');
   const filters = tagId ? { 'tag.id': tagId } : {};
 
-  console.time('Fetching topTags');
+  console.time('Fetching topTags with fetch');
+  const resp = await fetch(
+    'https://sample-databases-v0sn1n.us-east-1.xata.sh/db/gallery-example:main/tables/tag-to-image/summarize',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.XATA_API_KEY}`
+      },
+      body: JSON.stringify({
+        columns: ['tag'],
+        summaries: {
+          imageCount: { count: '*' }
+        },
+        sort: [
+          {
+            imageCount: 'desc'
+          }
+        ],
+        page: {
+          size: 10
+        }
+      })
+    }
+  );
+  const sum = await resp.json();
+  console.timeEnd('Fetching topTags with fetch');
+
+  console.time('Fetching topTags with SDK');
   const topTags = await xata.db['tag-to-image'].filter(filters).summarize({
     columns: ['tag'],
     summaries: {
@@ -33,7 +61,7 @@ export async function GET(request: Request) {
       size: 10
     }
   });
-  console.timeEnd('Fetching topTags');
+  console.timeEnd('Fetching topTags with SDK');
 
   // Find the top 10 tags using Xata's summarize helper
   const tags = topTags.summaries.map((tagSummary) => {
