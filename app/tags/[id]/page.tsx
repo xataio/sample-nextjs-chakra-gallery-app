@@ -3,6 +3,11 @@ import { Images, TagWithImageCount } from '~/components/images';
 import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/constants';
 import { getXataClient } from '~/utils/xata';
 
+// Next.js edge runtime
+// https://nextjs.org/docs/pages/api-reference/edge
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
+
 const xata = getXataClient();
 
 // Xata provides a summarize helper to get the total number of images for a tag

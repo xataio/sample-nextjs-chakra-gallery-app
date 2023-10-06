@@ -1,8 +1,12 @@
 import { compact, pick } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
 import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/constants';
-import { fetchMetadata } from '~/utils/metadata';
 import { getXataClient } from '~/utils/xata';
+
+// Next.js edge runtime
+// https://nextjs.org/docs/pages/api-reference/edge
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
 
 const xata = getXataClient();
 
@@ -60,44 +64,40 @@ export default async function Page({ searchParams }: { searchParams: { page: str
 
   // We use Xata's transform helper to create a thumbnail for each image
   // and apply it to the image object
-  console.time('Fetching images transforms');
   const images = compact(
-    await Promise.all(
-      imagesPage.records.map(async (record) => {
-        if (!record.image) {
-          return undefined;
+    imagesPage.records.map(async (record) => {
+      if (!record.image) {
+        return undefined;
+      }
+
+      const { url } = record.image.transform({
+        width: IMAGE_SIZE,
+        height: IMAGE_SIZE,
+        format: 'auto',
+        fit: 'cover',
+        gravity: 'top'
+      });
+
+      // Since the resulting image will be a square, we don't really need to fetch the metadata
+      // but let's do it anyway to show how it's done. Meta data provides both the original
+      // and transformed dimensions of the image.
+      // const metadata = await fetchMetadata(metadataUrl);
+
+      if (!url) {
+        return undefined;
+      }
+
+      const thumb = {
+        url,
+        attributes: {
+          width: IMAGE_SIZE, // Post transform width
+          height: IMAGE_SIZE // Post transform height
         }
+      };
 
-        const { url, metadataUrl } = record.image.transform({
-          width: IMAGE_SIZE,
-          height: IMAGE_SIZE,
-          format: 'auto',
-          fit: 'cover',
-          gravity: 'top'
-        });
-
-        // Since the resulting image will be a square, we don't really need to fetch the metadata
-        // but let's do it anyway to show how it's done. Meta data provides both the original
-        // and transformed dimensions of the image.
-        const metadata = await fetchMetadata(metadataUrl);
-
-        if (!url || !metadata) {
-          return undefined;
-        }
-
-        const thumb = {
-          url,
-          attributes: {
-            width: metadata.width, // Post transform width
-            height: metadata.height // Post transform height
-          }
-        };
-
-        return { ...record.toSerializable(), thumb };
-      })
-    )
+      return { ...record.toSerializable(), thumb };
+    })
   );
-  console.timeEnd('Fetching images transforms');
 
   // Find the top 10 tags using Xata's summarize helper
   const tags = topTags.summaries.map((tagSummary) => {
