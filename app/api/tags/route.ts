@@ -45,6 +45,7 @@ export async function GET(request: Request) {
   );
   const sum = await resp.json();
   console.timeEnd('Fetching topTags with fetch');
+  console.log(sum);
 
   console.time('Fetching topTags with SDK');
   const topTags = await xata.db['tag-to-image'].filter(filters).summarize({
