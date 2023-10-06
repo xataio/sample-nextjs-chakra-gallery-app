@@ -4,6 +4,11 @@ import { notFound } from 'next/navigation';
 import { Image } from '~/components/images/individual';
 import { ImageRecord, TagRecord, getXataClient } from '~/utils/xata';
 
+// Next.js edge runtime
+// https://nextjs.org/docs/pages/api-reference/edge
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
+
 const xata = getXataClient();
 
 const getImage = async (id: string) => {

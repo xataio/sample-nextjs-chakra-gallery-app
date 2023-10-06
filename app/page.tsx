@@ -80,9 +80,10 @@ export default async function Page({ searchParams }: { searchParams: { page: str
           gravity: 'top'
         });
 
-        // Since the resulting image will be a square, we don't really need to fetch the metadata
-        // but let's do it anyway to show how it's done. Meta data provides both the original
-        // and transformed dimensions of the image.
+        // Since the resulting image will be a square, we don't really need to fetch the metadata in this case.
+        // The meta data provides both the original and transformed dimensions of the image.
+        // If you don't know the dimensions of the transform image, you can get them with a request
+        // like this. The metadataUrl you get from the transform() call.
         // const metadata = await fetchMetadata(metadataUrl);
 
         if (!url) {
