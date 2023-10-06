@@ -1,6 +1,8 @@
 import { Images } from '~/components/images';
 
-// Using Xata's aggregate helper, we can get the total number of images
+// Next.js edge runtime
+// https://nextjs.org/docs/pages/api-reference/edge
+export const runtime = 'edge';
 
 export default async function Page({ searchParams }: { searchParams: { page: string } }) {
   const pageNumber = parseInt(searchParams.page) || 1;

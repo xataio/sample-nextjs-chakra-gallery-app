@@ -1,5 +1,9 @@
 import { Images } from '~/components/images';
 
+// Next.js edge runtime
+// https://nextjs.org/docs/pages/api-reference/edge
+export const runtime = 'edge';
+
 export default async function Page({
   params: { id },
   searchParams
