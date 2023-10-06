@@ -13,10 +13,13 @@ export type TagWithImageCount = JSONData<TagRecord> & {
   imageCount: number;
 };
 
-export async function GET() {
-  console.time('Fetching topTags');
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const tagId = searchParams.get('tagId');
+  const filters = tagId ? { 'tag.id': tagId } : {};
 
-  const topTags = await xata.db['tag-to-image'].summarize({
+  console.time('Fetching topTags');
+  const topTags = await xata.db['tag-to-image'].filter(filters).summarize({
     columns: ['tag'],
     summaries: {
       imageCount: { count: '*' }

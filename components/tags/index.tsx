@@ -6,14 +6,14 @@ import NextLink from 'next/link';
 import { FC } from 'react';
 import useSWR from 'swr';
 import { TagWithImageCount } from '~/app/api/tags/route';
+import { fetcher } from '~/utils/fetcher';
 
-const fetcher = async (...args: [RequestInfo, RequestInit?]) => {
-  const res = await fetch(...args);
-  return res.json();
-};
-
-function useTags() {
-  const { data, error, isLoading } = useSWR('/api/tags', fetcher);
+function useTags(tagId?: string) {
+  let url = '/api/tags';
+  if (tagId) {
+    url += `/?tagId=${tagId}`;
+  }
+  const { data, error, isLoading } = useSWR(url, fetcher);
   return {
     tags: data as TagWithImageCount[],
     isLoading,
@@ -21,8 +21,12 @@ function useTags() {
   };
 }
 
-export const Tags: FC = () => {
-  const { tags, error, isLoading } = useTags();
+type TagsProps = {
+  tagId?: string;
+};
+
+export const Tags: FC<TagsProps> = ({ tagId }) => {
+  const { tags, error, isLoading } = useTags(tagId);
 
   if (error) {
     return null;
@@ -30,34 +34,36 @@ export const Tags: FC = () => {
 
   // We render the tags in a different way depending on how many there are
 
-  if (isLoading || tags.length > 1) {
+  if (isLoading) {
+    return <Skeleton mb={8} height={20}></Skeleton>;
+  }
+
+  if (tags.length > 1) {
     return (
       <>
-        <Skeleton isLoaded={!isLoading}>
-          <Heading as="h1" size="md" mb={8}>
-            All images
-          </Heading>
-          {tags && (
-            <Flex mb={8} gap={2} wrap="wrap">
-              {tags.map((tag) => (
-                <Tag as={NextLink} key={tag.id} href={`/tags/${tag.id}`} gap={2}>
-                  {tag.name}
-                  <Flex
-                    alignItems="center"
-                    justifyContent="center"
-                    fontSize="xs"
-                    bg="contrastLowest"
-                    boxSize={4}
-                    borderRadius="md"
-                    color="contrastMedium"
-                  >
-                    {tag.imageCount}
-                  </Flex>
-                </Tag>
-              ))}
-            </Flex>
-          )}
-        </Skeleton>
+        <Heading as="h1" size="md" mb={8}>
+          All images
+        </Heading>
+        {tags && (
+          <Flex mb={8} gap={2} wrap="wrap">
+            {tags.map((tag) => (
+              <Tag as={NextLink} key={tag.id} href={`/tags/${tag.id}`} gap={2}>
+                {tag.name}
+                <Flex
+                  alignItems="center"
+                  justifyContent="center"
+                  fontSize="xs"
+                  bg="contrastLowest"
+                  boxSize={4}
+                  borderRadius="md"
+                  color="contrastMedium"
+                >
+                  {tag.imageCount}
+                </Flex>
+              </Tag>
+            ))}
+          </Flex>
+        )}
       </>
     );
   }
