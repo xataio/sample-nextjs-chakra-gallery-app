@@ -31,9 +31,7 @@ export async function POST(request: Request) {
   // Split the tags into an array from a comma separated string
   const tagsArray = tags ? (tags as string).split(',').map((tag) => tag.trim()) : [];
 
-  const fileName: string = file.name;
   const fileData = Buffer.from(await file.arrayBuffer());
-  const mimeType = file.type;
 
   // Create the image record in Xata
   const record = await xata.db.image.create({
@@ -49,7 +47,6 @@ export async function POST(request: Request) {
     },
     fileData
   );
-  await xata.db.image.update(record.id, { image: { mediaType: mimeType, name: fileName } });
 
   // Once the image is created, create or update any related tags
   await xata.db.tag.createOrUpdate([
