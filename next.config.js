@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['us-east-1.storage.xata.sh']
+    domains: ['us-east-1.storage.xata.sh', 'us-east-1.xata.sh']
   }
 };
 

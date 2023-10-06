@@ -1,5 +1,5 @@
-import { compact, pick } from 'lodash';
-import { Images, TagWithImageCount } from '~/components/images';
+import { compact } from 'lodash';
+import { Images } from '~/components/images';
 import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/constants';
 import { fetchMetadata } from '~/utils/metadata';
 import { getXataClient } from '~/utils/xata';
@@ -27,25 +27,8 @@ export default async function Page({ searchParams }: { searchParams: { page: str
 
   const imageCountPromise = getImageCount();
 
-  // We use Xata's summarize helper to get the top 10 tags,
-  // and create a property for each tag called imageCount
-  const topTagsPromise = xata.db['tag-to-image'].summarize({
-    columns: ['tag'],
-    summaries: {
-      imageCount: { count: '*' }
-    },
-    sort: [
-      {
-        imageCount: 'desc'
-      }
-    ],
-    pagination: {
-      size: 10
-    }
-  });
-
   console.time('Fetching images');
-  const [imagesPage, imageCount, topTags] = await Promise.all([imagesPagePromise, imageCountPromise, topTagsPromise]);
+  const [imagesPage, imageCount] = await Promise.all([imagesPagePromise, imageCountPromise]);
   console.timeEnd('Fetching images');
 
   const totalNumberOfPages = Math.ceil(imageCount / IMAGES_PER_PAGE_COUNT);
@@ -99,17 +82,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
   );
   console.timeEnd('Fetching images transforms');
 
-  // Find the top 10 tags using Xata's summarize helper
-  const tags = topTags.summaries.map((tagSummary) => {
-    const tag = tagSummary.tag;
-    const serializableTag = pick(tag, ['id', 'name', 'slug']);
-    return {
-      ...serializableTag,
-      imageCount: tagSummary.imageCount
-    };
-  }) as TagWithImageCount[];
-
   const readOnly = process.env.READ_ONLY === 'true';
 
-  return <Images images={images} tags={tags} page={page} readOnly={readOnly} />;
+  return <Images images={images} page={page} readOnly={readOnly} />;
 }
