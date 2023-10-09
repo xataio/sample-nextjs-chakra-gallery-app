@@ -4,6 +4,11 @@ import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
+// Next.js edge runtime
+// https://nextjs.org/docs/pages/api-reference/edge
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
+
 export const metadata: Metadata = {
   title: 'Xata Gallery Sample App',
   description: 'Xata gallery sample app'
