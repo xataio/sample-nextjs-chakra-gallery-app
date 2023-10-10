@@ -1,3 +1,4 @@
+import { XataFile } from '@xata.io/client';
 import { NextResponse } from 'next/server';
 import slugify from 'slugify';
 import { v4 as uuid } from 'uuid';
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
   // Split the tags into an array from a comma separated string
   const tagsArray = tags ? (tags as string).split(',').map((tag) => tag.trim()) : [];
 
-  const fileData = Buffer.from(await file.arrayBuffer());
+  const fileData = await file.arrayBuffer();
 
   // Create the image record in Xata
   const record = await xata.db.image.create({
@@ -45,8 +46,9 @@ export async function POST(request: Request) {
       column: 'image',
       record: record.id
     },
-    fileData
+    XataFile.fromArrayBuffer(fileData, { mediaType: file.type }).toBlob()
   );
+  await xata.db.image.update(record.id, { image: { name: file.name } });
 
   // Once the image is created, create or update any related tags
   await xata.db.tag.createOrUpdate([
