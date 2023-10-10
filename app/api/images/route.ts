@@ -33,10 +33,10 @@ export async function POST(request: Request) {
   await xata.db.image.update(record.id, { image: { name: file.name } });
 
   // Once the image is created, create or update any related tags
-  await xata.db.tag.createOrUpdate(tagsArray);
-
-  // Once the tags are created, create the links between the image and the tags
+  // Also create the links between the image and the tags
   if (tagsArray.length > 0) {
+    await xata.db.tag.createOrUpdate(tagsArray);
+
     await xata.db['tag-to-image'].create(
       // Create an array of objects with the tag id and image id
       tagsArray.map(({ id: tag }) => ({ id: uuid(), tag, image: record.id }))
