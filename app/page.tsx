@@ -1,7 +1,6 @@
 import { compact, pick } from 'lodash';
 import { Images, TagWithImageCount } from '~/components/images';
 import { IMAGES_PER_PAGE_COUNT, IMAGE_SIZE } from '~/utils/constants';
-import { fetchMetadata } from '~/utils/metadata';
 import { getXataClient } from '~/utils/xata';
 
 const xata = getXataClient();
@@ -68,7 +67,7 @@ export default async function Page({ searchParams }: { searchParams: { page: str
           return undefined;
         }
 
-        const { url, metadataUrl } = record.image.transform({
+        const { url } = record.image.transform({
           width: IMAGE_SIZE,
           height: IMAGE_SIZE,
           format: 'auto',
@@ -76,20 +75,21 @@ export default async function Page({ searchParams }: { searchParams: { page: str
           gravity: 'top'
         });
 
-        // Since the resulting image will be a square, we don't really need to fetch the metadata
-        // but let's do it anyway to show how it's done. Meta data provides both the original
-        // and transformed dimensions of the image.
-        const metadata = await fetchMetadata(metadataUrl);
+        // Since the resulting image will be a square, we don't really need to fetch the metadata in this case.
+        // The meta data provides both the original and transformed dimensions of the image.
+        // If you don't know the dimensions of the transform image, you can get them with a request
+        // like this. The metadataUrl you get from the transform() call.
+        // const metadata = await fetchMetadata(metadataUrl);
 
-        if (!url || !metadata) {
+        if (!url) {
           return undefined;
         }
 
         const thumb = {
           url,
           attributes: {
-            width: metadata.width, // Post transform width
-            height: metadata.height // Post transform height
+            width: IMAGE_SIZE, // Post transform width
+            height: IMAGE_SIZE // Post transform height
           }
         };
 
