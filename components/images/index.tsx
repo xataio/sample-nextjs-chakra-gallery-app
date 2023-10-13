@@ -8,7 +8,6 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { ImageRecord, TagRecord } from '~/utils/xata';
-import { BaseLayout } from '../layout/base';
 import { Search } from '../search';
 import { ImageUpload } from './upload';
 
@@ -97,7 +96,7 @@ export const Images: FC<ImagesProps> = ({ images, tags, page, readOnly }) => {
   };
 
   return (
-    <BaseLayout>
+    <>
       <Flex alignItems="start" justifyContent="space-between" mb={8}>
         <ImageUpload readOnly={readOnly} />
         <Search />
@@ -141,6 +140,6 @@ export const Images: FC<ImagesProps> = ({ images, tags, page, readOnly }) => {
           </Flex>
         </Flex>
       )}
-    </BaseLayout>
+    </>
   );
 };
