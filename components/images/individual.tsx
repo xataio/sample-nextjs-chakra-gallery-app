@@ -8,7 +8,6 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { ImageRecord, TagRecord } from '~/utils/xata';
-import { BaseLayout } from '../layout/base';
 import { Search } from '../search';
 import { ImageUpload } from './upload';
 
@@ -60,7 +59,7 @@ export const Image: FC<ImageProps> = ({ image, tags, readOnly }) => {
   const MotionBox = motion<MotionBoxProps>(Box);
 
   return (
-    <BaseLayout>
+    <>
       <MotionBox
         animate={{ opacity: [0, 0.3] }}
         transition={{ duration: 2, ease: 'easeIn', delay: 0.5 }}
@@ -147,6 +146,6 @@ export const Image: FC<ImageProps> = ({ image, tags, readOnly }) => {
           )}
         </Flex>
       </Flex>
-    </BaseLayout>
+    </>
   );
 };
