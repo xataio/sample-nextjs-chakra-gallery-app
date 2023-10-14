@@ -3,13 +3,18 @@ import { Link } from '@chakra-ui/next-js';
 import { Box, Flex, Heading, Select, SimpleGrid, Tag, Text } from '@chakra-ui/react';
 import { JSONData } from '@xata.io/client';
 import { range } from 'lodash';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { ImageRecord, TagRecord } from '~/utils/xata';
-import { Search } from '../search';
 import { ImageUpload } from './upload';
+
+// Dynamic import because the Search modal is not needed during the first paint.
+const Search = dynamic(() => import('../search'), {
+  ssr: false
+});
 
 // Because we serialized our data with .toSerializabe() server side,
 // we need to cast it back to the original type as JSON Data
