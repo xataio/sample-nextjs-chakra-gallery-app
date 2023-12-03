@@ -31,6 +31,7 @@ You'll need to [install Xata](https://xata.io/docs/getting-started/installation)
 - Run `xata init --schema schema.json --codegen=utils/xata.ts` to create a new database with the necessary schema. When creating the database, choose `us-east-1` as the region. If you pick another region, you will need to add it to `next.config.js`.
 - `pnpm run dev` to load the site at http://localhost:3000
 - Add images either through the application, or through your database UI at https://app.xata.io
+- Alternatively, you can import the sample data with this command: `pnpm seed`
 
 ## Environment variables
 

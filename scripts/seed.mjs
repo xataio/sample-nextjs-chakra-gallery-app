@@ -126,13 +126,39 @@ class XataClient extends buildClient() {
   }
 }
 
-const xata = new XataClient({
-  databaseURL: process.env.XATA_DATABASE_URL,
-  apiKey: process.env.XATA_API_KEY,
-  branch: process.env.XATA_BRANCH || 'main'
-});
+/**
+ * @param {string} filePath
+ * @return {Promise<string>}
+ */
+async function readDatabaseURL(filePath) {
+  try {
+    const json = JSON.parse(await fs.readFile(filePath, 'utf-8'));
+    return json.databaseURL;
+  } catch (error) {
+    console.error('Error reading file:', error);
+    throw error;
+  }
+}
 
-async function isDBpopulated() {
+/**
+ * @return {Promise<XataClient>}
+ */
+async function getXataClient() {
+  // Prefer the env var, but fallback to the .xatarc file
+  const dbURL = process.env.XATA_DATABASE_URL || (await readDatabaseURL('./.xatarc'));
+  console.log(`❯ Connecting to database: ${dbURL}`);
+  return new XataClient({
+    databaseURL: dbURL,
+    apiKey: process.env.XATA_API_KEY,
+    branch: process.env.XATA_BRANCH || 'main'
+  });
+}
+
+/**
+ * @param {XataClient} xata
+ * @return {Promise<boolean>}
+ */
+async function isDBpopulated(xata) {
   // TODO: switch this to the summarize API
   const { aggs } = await xata.db.image.aggregate({
     totalCount: {
@@ -161,7 +187,10 @@ async function encodeImageToBase64(filePath) {
   }
 }
 
-async function insertMockData() {
+/**
+ * @param {XataClient} xata
+ */
+async function insertMockData(xata) {
   //const TAGS = ['orange', 'brown', 'blue', 'white', 'gray', 'green', 'red', 'yellow', 'beige'];
   const allTags = BUTTERFLIES.flatMap((butterfly) => butterfly.tags);
   const uniqueTags = [...new Set(allTags)];
@@ -199,13 +228,14 @@ async function insertMockData() {
 }
 
 export async function seed() {
-  if (await isDBpopulated()) {
+  const xata = await getXataClient();
+  if (await isDBpopulated(xata)) {
     console.warn('Database is not empty. Skip seeding...');
     return;
   }
 
   try {
-    await insertMockData();
+    await insertMockData(xata);
 
     console.log(`🎉 Seed data successfully inserted!`);
 
@@ -216,8 +246,6 @@ export async function seed() {
 }
 
 try {
-  console.log(`❯ Pushing sample data to: ${process.env.XATA_DATABASE_URL}`);
-
   void seed();
 } catch {
   console.warn('Seeding gone wrong.');
