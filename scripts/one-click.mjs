@@ -10,7 +10,7 @@ try {
   console.log(`❯ Setting up database at ${process.env.XATA_DATABASE_URL}`);
 
   exec(
-    `pnpm -s dlx @xata.io/cli@latest init --schema=schema.json --codegen=lib/xata.codegen.ts --db=${process.env.XATA_DATABASE_URL} --yes`,
+    `pnpm -s dlx @xata.io/cli@latest init --schema=schema.json --codegen=utils/xata.ts --db=${process.env.XATA_DATABASE_URL} --yes`,
     (_error, stdout, stderr) => {
       console.log('❯ Running pnpm dlx');
 

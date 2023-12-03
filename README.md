@@ -45,3 +45,5 @@ XATA_API_KEY=
 # Setting to true will disable API / UI to write to the database
 READ_ONLY=false
 ```
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fxataio%2Fsample-nextjs-chakra-gallery-app&integration-ids=oac_IDpMECDuYqBvAtu3wXXMQe0J&install-command=pnpm%20one-click)
