@@ -159,14 +159,14 @@ async function getXataClient() {
  * @return {Promise<boolean>}
  */
 async function isDBpopulated(xata) {
-  // TODO: switch this to the summarize API
-  const { aggs } = await xata.db.image.aggregate({
-    totalCount: {
-      count: '*'
+  const { summaries } = await xata.db.image.summarize({
+    summaries: {
+      totalCount: {
+        count: '*'
+      }
     }
   });
-
-  if (aggs.totalCount > 0) {
+  if (summaries[0].totalCount > 0) {
     return true;
   }
 
