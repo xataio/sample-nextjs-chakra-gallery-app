@@ -11,7 +11,8 @@
     "postinstall": "pnpm run chakra-types-gen",
     "prepare": "husky install",
     "seed": "node scripts/seed.mjs",
-    "xata:one-click": "pnpm install && node scripts/one-click.mjs && node scripts/seed.mjs"
+    "cleanup": "node scripts/cleanup.mjs",
+    "xata:one-click": "pnpm install && node scripts/cleanup.mjs && node scripts/one-click.mjs && node scripts/seed.mjs"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",

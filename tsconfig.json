@@ -30,7 +30,8 @@
     ".next/types/**/*.ts",
     "images.d.ts",
     "scripts/one-click.mjs",
-    "scripts/seed.mjs"
+    "scripts/seed.mjs",
+    "scripts/cleanup.mjs"
   ],
   "exclude": ["node_modules"]
 }
