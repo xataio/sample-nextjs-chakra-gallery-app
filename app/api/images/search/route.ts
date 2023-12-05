@@ -12,7 +12,7 @@ export async function GET(req: Request) {
   const searchQuery = searchParams.get('query') ?? '';
 
   // Return results from the tag and image tables
-  const results = await xata.search.all(searchQuery, {
+  const { records } = await xata.search.all(searchQuery, {
     tables: [
       {
         table: 'tag',
@@ -29,7 +29,7 @@ export async function GET(req: Request) {
   });
 
   // Return the results as JSON
-  return new Response(JSON.stringify(results), {
+  return new Response(JSON.stringify(records), {
     headers: { 'Cache-Control': 'max-age=1, stale-while-revalidate=300' }
   });
 }
