@@ -25,10 +25,8 @@ You'll need to [install Xata](https://xata.io/docs/getting-started/installation)
 
 - `git clone git@github.com:xataio/sample-nextjs-chakra-gallery-app.git`
 - `cd sample-nextjs-chakra-gallery-app`
-- Remove the Xata files that point to our database
-  - `rm -rf .xata utils/xata.ts .xatarc`
 - `pnpm install`
-- Run `xata init --schema schema.json --codegen=utils/xata.ts` to create a new database with the necessary schema. When creating the database, choose `us-east-1` as the region. If you pick another region, you will need to add it to `next.config.js`.
+- Run `pnpm run bootstrap` the first you set up the project. This will ask for a Xata database to install to (you can create a new one) and then seed in some data.
 - `pnpm run dev` to load the site at http://localhost:3000
 - Add images either through the application, or through your database UI at https://app.xata.io
 
@@ -44,3 +42,5 @@ XATA_API_KEY=
 # Setting to true will disable API / UI to write to the database
 READ_ONLY=false
 ```
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fxataio%2Fsample-nextjs-chakra-gallery-app&integration-ids=oac_IDpMECDuYqBvAtu3wXXMQe0J&install-command=pnpm%20one-click)

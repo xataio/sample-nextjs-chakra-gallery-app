@@ -9,7 +9,11 @@
     "lint": "next lint",
     "chakra-types-gen": "chakra-cli tokens ./theme/theme.ts",
     "postinstall": "pnpm run chakra-types-gen",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "seed": "node scripts/seed.mjs",
+    "cleanup": "node scripts/cleanup.mjs",
+    "bootstrap": "node scripts/cleanup.mjs --force && xata init --schema schema.json --codegen=utils/xata.ts && node scripts/seed.mjs",
+    "xata:one-click": "pnpm install && node scripts/cleanup.mjs && node scripts/one-click.mjs && node scripts/seed.mjs"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.2.0",
@@ -21,6 +25,7 @@
     "@fluentui/react-icons": "^2.0.223",
     "@xata.io/client": "^0.28.0",
     "chroma-js": "^2.4.2",
+    "dotenv": "^16.3.1",
     "lodash": "^4.17.21",
     "next": "14.0.3",
     "prettier": "=2.8.8",
