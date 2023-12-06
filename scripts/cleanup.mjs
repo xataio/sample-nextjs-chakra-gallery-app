@@ -1,16 +1,17 @@
-//@ts-check
-import { exec } from 'node:child_process';
+import { execSync } from 'child_process';
 
-if (process.argv.length < 3 || process.argv[2] !== '--force') {
-  console.log(`❯ ☢️ This deletes all Xata generated files, including the schema history!`);
-  console.log(`❯ ⚠️ Please run this command with the --force flag to continue.`);
-  process.exit(0);
+const args = process.argv.slice(2);
+const dbIndex = args.indexOf('--db');
+let dbValue = null;
+
+if (dbIndex !== -1 && dbIndex < args.length - 1) {
+  dbValue = args[dbIndex + 1];
 }
 
-try {
-  exec(`rm -rf ./.xata ./utils/xata.ts ./.xatarc`);
-} catch {
-  console.warn('Cleanup gone wrong.');
+let cmd = 'node scripts/cleanup.mjs --force && xata init --schema schema.json --codegen=utils/xata.ts';
+if (dbValue) {
+  cmd += ` --db ${dbValue}`;
 }
+cmd += ' && node scripts/seed.mjs';
 
-console.log(`❯ ✅ Cleanup complete.`);
+execSync(cmd, { stdio: 'inherit' });
