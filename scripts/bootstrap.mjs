@@ -1,12 +1,15 @@
 import { execSync } from 'child_process';
 
 const args = process.argv.slice(2);
-let dbArg = args.find((arg) => arg.startsWith('--db='));
+const dbIndex = args.indexOf('--db');
+let dbValue = null;
+
+if (dbIndex !== -1 && dbIndex < args.length - 1) {
+  dbValue = args[dbIndex + 1];
+}
 
 let cmd = 'node scripts/cleanup.mjs --force && xata init --schema schema.json --codegen=utils/xata.ts';
-if (dbArg) {
-  // Extracting the value from --db=value
-  const dbValue = dbArg.split('=')[1];
+if (dbValue) {
   cmd += ` --db ${dbValue}`;
 }
 cmd += ' && node scripts/seed.mjs';
