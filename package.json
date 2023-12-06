@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "seed": "node scripts/seed.mjs",
     "cleanup": "node scripts/cleanup.mjs",
-    "bootstrap": "node scripts/cleanup.mjs --force && xata init --schema schema.json --codegen=utils/xata.ts && node scripts/seed.mjs",
+    "bootstrap": "node scripts/bootstrap.mjs",
     "xata:one-click": "pnpm install && node scripts/cleanup.mjs --force && node scripts/one-click.mjs && node scripts/seed.mjs"
   },
   "dependencies": {
