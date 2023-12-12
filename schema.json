@@ -28,7 +28,8 @@
         },
         {
           "name": "image",
-          "type": "file"
+          "type": "file",
+          "defaultPublicAccess": true
         }
       ],
       "revLinks": [
