@@ -32,8 +32,6 @@ export async function POST(request: Request) {
     ['*', 'image.uploadUrl']
   );
 
-  console.log(record, record.image?.uploadUrl);
-
   // Now that we have an uploadUrl, we can upload a file directly to it
   await fetch(record.image?.uploadUrl ?? '', { method: 'PUT', body: file });
 
