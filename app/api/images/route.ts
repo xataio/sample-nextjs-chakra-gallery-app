@@ -15,6 +15,7 @@ export async function POST(request: Request) {
   // Get the form data
   const formData = await request.formData();
   const file = formData.get('file') as File;
+  const fileBlob = new Blob([file], { type: file.type });
   const name = formData.get('name') as string;
   const tags = formData.get('tags') as string;
 
@@ -26,10 +27,11 @@ export async function POST(request: Request) {
     }) ?? [];
 
   // Create the image record in Xata
-  const record = await xata.db.image.create({ name });
+  const record = await xata.db.image.create({ name }, ['*', 'image.uploadUrl']);
 
   // Upload the file and attach it to the image record
-  await xata.files.upload({ table: 'image', column: 'image', record: record.id }, file);
+  //  await xata.files.upload({ table: 'image', column: 'image', record: record.id }, file);
+  await fetch(record.image?.uploadUrl ?? '', { method: 'PUT', body: fileBlob });
   await xata.db.image.update(record.id, { image: { name: file.name } });
 
   // Once the image is created, create or update any related tags
