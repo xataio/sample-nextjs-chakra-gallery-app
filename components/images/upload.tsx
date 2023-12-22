@@ -14,6 +14,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Progress,
   Text,
   useDisclosure,
   useToast
@@ -31,6 +32,7 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
   const [name, setName] = useState('');
   const [file, setFile] = useState(null);
   const [tags, setTags] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState('');
   const router = useRouter();
   const toast = useToast();
@@ -62,19 +64,28 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
       const record = await response.json();
 
       // Now that we have an uploadUrl, we can upload a file directly to it
-      await fetch(record.image.uploadUrl, { method: 'PUT', body: file });
 
       if (response.status === 200) {
-        toast({
-          title: 'Image uploaded.',
-          description: 'Your image was uploaded successfully.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true
-        });
-        router.push(`/images/${record.id}`);
+        setIsUploading(true);
+        try {
+          await fetch(record.image.uploadUrl, { method: 'PUT', body: file });
+          setIsUploading(true);
+          toast({
+            title: 'Image uploaded.',
+            description: 'Your image was uploaded successfully.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true
+          });
+          setIsUploading(false);
+          router.push(`/images/${record.id}`);
+        } catch (error) {
+          // Delete the record and associated tag
+          await fetch(`/api/images/${record.id}`, { method: 'DELETE' });
+          setIsUploading(false);
+          throw new Error("Couldn't upload image");
+        }
       } else {
-        // TODO: we'd want to delete the image record here
         throw new Error("Couldn't upload image");
       }
     } catch (error) {
@@ -133,6 +144,7 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
                   <Input type="file" name="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
                 </FormControl>
               </Flex>
+              {isUploading && <Progress size="xs" isIndeterminate colorScheme="primary" mt={4} />}
               {message && <div>{message}</div>}
             </ModalBody>
 
