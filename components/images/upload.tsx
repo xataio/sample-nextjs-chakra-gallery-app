@@ -45,6 +45,7 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
       return;
     }
 
+    // Grab the form data
     const formData = new FormData();
     const fileObj = file as File;
     formData.append('fileType', fileObj.type);
@@ -53,6 +54,10 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
 
     try {
       // This route creates new image and tag records in Xata
+      // If you look at the api route code, you'll see that we're not actually
+      // uploading the image here. Instead, we're creating a record in the database
+      // with a temporary, empty image. We do this because we need to generate a
+      // pre-signed URL for the image upload.
       const response = await fetch('/api/images', {
         method: 'POST',
         body: formData
@@ -63,7 +68,10 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
 
       const record = await response.json();
 
-      // Now that we have an uploadUrl, we can upload a file directly to it
+      // The response include a pre-signed uploadUrl on the record. Below, we then send a file
+      // directly to Xata on the client side using the PUT request. This lets us upload
+      // large files that would otherwise exceed the limit for serverless functions on
+      // services like Vercel.
 
       if (response.status === 200) {
         setIsUploading(true);
