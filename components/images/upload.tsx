@@ -68,8 +68,8 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
       if (response.status === 200) {
         setIsUploading(true);
         try {
-          await fetch(record.image.uploadUrl, { method: 'PUT', body: file });
           setIsUploading(true);
+          await fetch(record.image.uploadUrl, { method: 'PUT', body: file });
           toast({
             title: 'Image uploaded.',
             description: 'Your image was uploaded successfully.',
