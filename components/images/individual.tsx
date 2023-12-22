@@ -90,9 +90,9 @@ export const Image: FC<ImageProps> = ({ image, tags, readOnly }) => {
           {/* This is the original image */}
           <Box boxShadow="lg" maxW="full" borderRadius="md" overflow="hidden">
             <NextImage
-              src={image.image.url}
-              width={image.image.attributes.width}
-              height={image.image.attributes.height}
+              src={image.image.url ?? ''}
+              width={image.image.attributes?.width}
+              height={image.image.attributes?.height}
               alt={image.name ?? ''}
             />
           </Box>
@@ -113,17 +113,17 @@ export const Image: FC<ImageProps> = ({ image, tags, readOnly }) => {
           </FormControl>
           <FormControl>
             <FormLabel>Original image URL</FormLabel>
-            <Link href={image.image.url} fontSize="xs">
+            <Link href={image.image.url ?? ''} fontSize="xs">
               {image.image.url}
             </Link>
           </FormControl>
           <FormControl>
             <FormLabel>Original width</FormLabel>
-            <Text fontSize="sm">{image.image.attributes.width}</Text>
+            <Text fontSize="sm">{image.image.attributes?.width}</Text>
           </FormControl>
           <FormControl>
             <FormLabel>Original height</FormLabel>
-            <Text fontSize="sm">{image.image.attributes.height}</Text>
+            <Text fontSize="sm">{image.image.attributes?.height}</Text>
           </FormControl>
           {tags.length > 0 && (
             <FormControl>

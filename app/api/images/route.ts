@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
   // Get the form data
   const formData = await request.formData();
-  const file = formData.get('file') as File;
+  const fileType = formData.get('fileType') as string;
   const name = formData.get('name') as string;
   const tags = formData.get('tags') as string;
 
@@ -25,12 +25,12 @@ export async function POST(request: Request) {
       return { id: slugify(name, { lower: true }), name };
     }) ?? [];
 
-  // Create the image record in Xata
-  const record = await xata.db.image.create({ name });
-
-  // Upload the file and attach it to the image record
-  await xata.files.upload({ table: 'image', column: 'image', record: record.id }, file);
-  await xata.db.image.update(record.id, { image: { name: file.name } });
+  // Create an empty image record with no base64 content
+  const record = await xata.db.image.create(
+    { name, image: { name: name, mediaType: fileType, base64Content: '' } },
+    // Request an uploadUrl from the created record. We can use it to upload a large to replace the dummy one
+    ['*', 'image.uploadUrl']
+  );
 
   // Once the image is created, create or update any related tags
   // Also create the links between the image and the tags
