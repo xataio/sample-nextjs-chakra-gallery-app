@@ -44,7 +44,8 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
     }
 
     const formData = new FormData();
-    formData.append('file', file);
+    const fileObj = file as File;
+    formData.append('fileType', fileObj.type);
     formData.append('name', name);
     formData.append('tags', tags);
 
@@ -54,8 +55,14 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
         method: 'POST',
         body: formData
       });
+      if (response.status !== 200) {
+        throw new Error("Couldn't create image record");
+      }
 
-      const image = await response.json();
+      const record = await response.json();
+
+      // Now that we have an uploadUrl, we can upload a file directly to it
+      await fetch(record.image.uploadUrl, { method: 'PUT', body: file });
 
       if (response.status === 200) {
         toast({
@@ -65,8 +72,9 @@ export const ImageUpload: FC<ImageUploadProps> = ({ readOnly }) => {
           duration: 5000,
           isClosable: true
         });
-        router.push(`/images/${image.id}`);
+        router.push(`/images/${record.id}`);
       } else {
+        // TODO: we'd want to delete the image record here
         throw new Error("Couldn't upload image");
       }
     } catch (error) {
